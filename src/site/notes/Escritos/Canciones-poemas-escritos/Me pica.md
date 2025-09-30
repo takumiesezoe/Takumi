@@ -1,3 +1,10 @@
+---
+Fecha de creación: 2025-09-23T22:35:16
+Idioma: Spanish
+Número: null
+dg-publish: true
+---
+
 Me pica, me pica tanto que casi escuece.
 Escuece, y empieza a doler.
 
