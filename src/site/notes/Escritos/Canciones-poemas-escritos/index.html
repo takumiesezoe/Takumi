@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Canciones, poemas y escritos · Takumi’s Garden</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #05010a;
+        --panel: rgba(255, 255, 255, 0.05);
+        --panel-border: rgba(255, 95, 162, 0.28);
+        --panel-hover: rgba(255, 95, 162, 0.12);
+        --text: #fce6f6;
+        --muted: rgba(255, 199, 226, 0.82);
+        --accent: #ff5fa2;
+        --accent-strong: #ff82c0;
+        font-family: "Figtree", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, rgba(255, 95, 162, 0.12), transparent 55%), var(--bg);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(72rem, 100%);
+        margin-inline: auto;
+        padding: 3rem 1.5rem 4rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      nav.breadcrumbs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        align-items: center;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      nav.breadcrumbs a {
+        color: var(--muted);
+        text-decoration: none;
+      }
+
+      nav.breadcrumbs a:hover,
+      nav.breadcrumbs a:focus-visible {
+        color: var(--text);
+        text-decoration: underline;
+      }
+
+      header.hero {
+        background: var(--panel);
+        border-radius: 1.5rem;
+        border: 1px solid var(--panel-border);
+        padding: 2.5rem;
+        box-shadow: 0 24px 48px rgba(5, 1, 10, 0.45);
+      }
+
+      header.hero h1 {
+        margin: 0;
+        font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+        letter-spacing: 0.04em;
+        color: var(--accent);
+      }
+
+      header.hero p {
+        margin: 0.9rem 0 0;
+        max-width: 44rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .cta {
+        margin-top: 1.75rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+      }
+
+      .cta a {
+        border-radius: 999px;
+        padding: 0.75rem 1.6rem;
+        border: 1px solid var(--accent);
+        background: rgba(255, 95, 162, 0.14);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      }
+
+      .cta a.secondary {
+        background: transparent;
+        border-color: rgba(255, 95, 162, 0.35);
+      }
+
+      .cta a:hover,
+      .cta a:focus-visible {
+        transform: translateY(-2px);
+        border-color: rgba(255, 95, 162, 0.6);
+        box-shadow: 0 18px 38px rgba(5, 1, 10, 0.5);
+      }
+
+      section#index {
+        background: var(--panel);
+        border-radius: 1.5rem;
+        border: 1px solid var(--panel-border);
+        padding: 2.5rem;
+        box-shadow: 0 24px 48px rgba(5, 1, 10, 0.45);
+      }
+
+      section#index h2 {
+        margin-top: 0;
+        color: var(--accent-strong);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      section#index p[role='status'] {
+        color: var(--muted);
+        margin-bottom: 1.25rem;
+      }
+
+      ul#poem-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 0.9rem;
+      }
+
+      ul#poem-list li {
+        margin: 0;
+      }
+
+      ul#poem-list li a {
+        display: block;
+        padding: 0.75rem 1rem;
+        border-radius: 0.9rem;
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid transparent;
+        transition: background 0.2s ease, border-color 0.2s ease;
+      }
+
+      ul#poem-list li a:hover,
+      ul#poem-list li a:focus-visible {
+        background: var(--panel-hover);
+        border-color: rgba(255, 95, 162, 0.35);
+      }
+
+      ul#poem-list li.missing {
+        color: rgba(255, 174, 205, 0.85);
+        font-size: 0.95rem;
+      }
+
+      ul#poem-list li.missing span {
+        display: block;
+        margin-top: 0.35rem;
+      }
+
+      p.muted {
+        color: var(--muted);
+        margin-top: 1.5rem;
+      }
+
+      section#extras {
+        display: grid;
+        gap: 1.25rem;
+      }
+
+      @media (min-width: 56rem) {
+        section#extras {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      section#extras article {
+        background: var(--panel);
+        border-radius: 1.35rem;
+        border: 1px solid var(--panel-border);
+        padding: 1.75rem;
+        box-shadow: 0 18px 40px rgba(5, 1, 10, 0.4);
+      }
+
+      section#extras h3 {
+        margin-top: 0;
+        color: var(--accent);
+      }
+
+      section#extras p {
+        color: var(--muted);
+        margin-bottom: 1.15rem;
+      }
+
+      footer {
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="../../../index.html">← Volver al jardín</a>
+        <span aria-hidden="true">/</span>
+        <span>Canciones, poemas y escritos</span>
+      </nav>
+
+      <header class="hero">
+        <h1>Canciones, poemas y escritos</h1>
+        <p>
+          Este índice recoge todas las notas exportadas desde Obsidian. Haz clic en cualquier título para abrirlo en el visor
+          rosa &amp; negro, o entra directamente al archivo Markdown alojado en GitHub Pages.
+        </p>
+        <div class="cta">
+          <a href="viewer.html">Abrir visor</a>
+          <a class="secondary" href="../Dias%20de%20colores/">Visitar Días de colores</a>
+          <a class="secondary" href="../../../../">Explorar otras notas</a>
+        </div>
+      </header>
+
+      <section id="index" aria-labelledby="index-heading">
+        <h2 id="index-heading">Índice navegable</h2>
+        <p id="status" role="status">Cargando poemas…</p>
+        <ul id="poem-list"></ul>
+        <p id="hint" class="muted" hidden>
+          Algunos enlaces aparecen sin archivo porque falta el <code>.md</code> correspondiente. Sube el documento al
+          repositorio para habilitarlo.
+        </p>
+        <p class="muted">
+          ¿Prefieres abrir un Markdown directamente? Cambia la URL del enlace de cualquier poema reemplazando
+          <code>viewer.html?file=…</code> por el nombre del archivo para ver el texto sin estilos.
+        </p>
+      </section>
+
+      <section id="extras" aria-label="Recorridos sugeridos">
+        <article>
+          <h3>Visor rosa &amp; negro</h3>
+          <p>
+            Navega los textos con transición suave entre poemas, controles de teclado y navegación lateral. Guarda la URL
+            con <code>?file=nombre.md</code> para compartir lecturas puntuales.
+          </p>
+          <a href="viewer.html">Abrir visor</a>
+        </article>
+        <article>
+          <h3>Días de colores</h3>
+          <p>
+            Una nueva colección de semillas cromáticas disponible dentro del cuaderno. Empieza por “Verde melancólico 🌱” y
+            amplía la paleta conforme publiques nuevos tonos.
+          </p>
+          <a href="../Dias%20de%20colores/">Abrir paleta</a>
+        </article>
+      </section>
+
+      <footer>Actualizado automáticamente desde los archivos Markdown del repositorio.</footer>
+    </div>
+
+    <script src="../../../assets/poem-index.js"></script>
+    <script>
+      initPoemIndex({
+        listSelector: '#poem-list',
+        statusSelector: '#status',
+        hintSelector: '#hint',
+        indexPath: 'index.md',
+        viewerBase: 'viewer.html',
+        fileBase: '',
+      });
+    </script>
+  </body>
+</html>
