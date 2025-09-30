@@ -3,10 +3,13 @@ title: Canciones, poemas y escritos
 dg-publish: true
 dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
 ---
-[[I want it to hurt|I want it to hurt]]
-[[Me pica|Me pica]]
-[[Amigos|Amigos]]
+
 [[Amantes|Amantes]]
+[[Brazos|Brazos]]
+[[Recuerdos|Recuerdos]]
+[[Me pica|Me pica]]
+[[I want it to hurt|I want it to hurt]]
+[[Amigos|Amigos]]  
 [[A nadie, nunca|A nadie, nunca]]  
 [[Miradas|Miradas]]  
 [[Listas|Listas]]  
@@ -67,7 +70,6 @@ dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
 [[Calladito|Calladito]]  
 [[Todo mal|Todo mal]]  
 [[Borroso|Borroso]]
-[[Brazos|Brazos]]
 [[Waking up or falling down|Waking up or falling down]]  
 [[Escapulas|Escapulas]]  
 [[En la sien|En la sien]]  
@@ -80,7 +82,6 @@ dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
 [[Slit|Slit]]  
 [[Irrealidad|Irrealidad]]  
 [[Redentor en ruinas|Redentor en ruinas]]
-[[Recuerdos|Recuerdos]]
 [[Mi deseo|Mi deseo]]  
 [[TEA|TEA]]  
 [[Seen|Seen]]  
