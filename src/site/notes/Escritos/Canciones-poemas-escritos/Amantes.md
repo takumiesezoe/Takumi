@@ -19,4 +19,3 @@ Cuando nos despedimos, llevamos arena
 en los bolsillos, restos de mar inventado.
 Amantes, sí, de una ciudad portátil
 que se pliega y despliega con cada abrazo.
-
