@@ -8,7 +8,6 @@ description: Semilla de color con notas melancólicas en verde olivo.
 
 [← Volver al índice de Días de colores](./index.html)
 
-
 > [!info] Semilla cromática
 > <div style="width:100%;height:80px;border-radius:12px;background:#93997B;box-shadow:inset 0 0 0 1px rgba(255,255,255,0.35);"></div>
 
