@@ -2,6 +2,8 @@
 title: Canciones, poemas y escritos
 dg-publish: true
 dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
+---
+
 [[Amantes|Amantes]]
 [[Brazos|Brazos]]
 [[Recuerdos|Recuerdos]]

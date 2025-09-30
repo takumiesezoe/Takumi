@@ -19,3 +19,4 @@ After the burn I gather what remains:
 tiny embers cupped between my palms.
 I breathe and they respond, a timid glow
 that says surviving counts as being brave.
+
