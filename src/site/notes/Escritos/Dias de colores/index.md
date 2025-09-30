@@ -1,5 +1,6 @@
 ---
-{"dg-publish":true,"dg-permalink":"/escritos/dias-de-colores/","permalink":"/escritos/dias-de-colores/","title":"Días de colores"}
+{"dg-publish":true,"dg-permalink":"/escritos/dias-de-colores/","title":"Días de colores"}
+
 ---
 
 > [!summary] Paleta sentimental
@@ -61,7 +62,8 @@
 </style>
 
 <div class="palette-grid">
-  <a class="palette-card" href="verde-melancolico/">
+  <a class="palette-card" href="/escritos/dias-de-colores/verde-melancolico/">
+
     <span class="swatch" style="--tone:#93997B;"></span>
     <span class="tone-name">Verde melancólico 🌱</span>
     <span class="tone-meta">#93997B</span>
