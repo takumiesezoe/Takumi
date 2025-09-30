@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/escritos/dias-de-colores/verde-melancolico/","tags":["semillas","color"]}
+{"dg-publish":true,"permalink":"/escritos/dias-de-colores/verde-melancolico/","title":"Verde melancólico 🌱","tags":["semillas","color"]}
 ---
 
 
@@ -9,5 +9,9 @@
 
 - 🎨 **Código HEX:** `#93997B`
 - 📷 **Imagen:** ![20250930_123341.jpg](/img/user/20250930_123341.jpg)
-- ✍️ **Frase:** "Verde que trae recuerdos y no de los buenos, verde del que dan ganas  de lanzarse..." 
+- ✍️ **Frase:** "Verde que trae recuerdos y no de los buenos, verde del que dan ganas  de lanzarse..."
+
+---
+
+[⬅️ Volver al índice de Días de colores](../)
 
