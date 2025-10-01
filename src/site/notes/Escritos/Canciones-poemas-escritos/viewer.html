@@ -290,6 +290,28 @@
 
         const isFileProtocol = window.location.protocol === 'file:';
 
+        const viewerDir = window.location.pathname.replace(/[^/]*$/, '');
+        const viewerSegments = viewerDir.split('/').filter(Boolean);
+        const notesIndex = viewerSegments.indexOf('notes');
+        const depthAfterNotes =
+          notesIndex === -1 ? 0 : Math.max(viewerSegments.length - (notesIndex + 1), 0);
+        const notesBasePrefix = depthAfterNotes > 0 ? '../'.repeat(depthAfterNotes) : '';
+
+        function resolveRequestPath(fileName) {
+          if (!fileName) return fileName;
+          if (
+            /^(?:[a-z]+:|\/)/i.test(fileName) ||
+            fileName.startsWith('./') ||
+            fileName.startsWith('../')
+          ) {
+            return fileName;
+          }
+          if (!notesBasePrefix) {
+            return fileName;
+          }
+          return `${notesBasePrefix}${fileName}`;
+        }
+
         function normalizeFileName(raw) {
           if (!raw) return null;
           let decoded = raw;
@@ -313,8 +335,9 @@
           if (!markdown) return items;
           let match;
           while ((match = LINK_RE.exec(markdown)) !== null) {
-            const target = (match[1] || '').trim();
-            if (!target) continue;
+            const rawTarget = (match[1] || '').trim();
+            if (!rawTarget) continue;
+            const target = rawTarget.endsWith('\\') ? rawTarget.slice(0, -1) : rawTarget;
             const label = formatLabel((match[2] || target).trim());
             const baseName = target.replace(/\.md$/i, '');
             const fileName = `${baseName}.md`;
@@ -417,7 +440,8 @@
           updateControls();
 
           const fileName = item.fileName;
-          fetch(fileName)
+          const requestPath = resolveRequestPath(fileName);
+          fetch(requestPath)
             .then((response) => {
               if (!response.ok) {
                 throw new Error(`No se pudo cargar el archivo (HTTP ${response.status})`);
@@ -436,7 +460,11 @@
             })
             .catch((error) => {
               titleEl.textContent = item.label;
-              renderError(error.message, `Intenté cargar: <code>${fileName}</code>`);
+              const details =
+                requestPath && requestPath !== fileName
+                  ? `Intenté cargar: <code>${requestPath}</code><br />Ruta solicitada: <code>${fileName}</code>`
+                  : `Intenté cargar: <code>${fileName}</code>`;
+              renderError(error.message, details);
               updateDocumentTitle(item.label);
               state.loading = false;
             });
