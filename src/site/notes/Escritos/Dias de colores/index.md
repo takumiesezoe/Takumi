@@ -62,6 +62,15 @@
 </style>
 
 <div class="palette-grid">
+  <a class="palette-card" href="/escritos/dias-de-colores/naranja-en-espera/">
+
+    <span class="swatch" style="--tone:#DC7630;"></span>
+    <span class="tone-name">Naranja en espera 🟧</span>
+    <span class="tone-meta">#DC7630</span>
+    <span class="tone-quote">
+      &ldquo;Estoy en la sala de espera, he visto a Paula, con Lorena ha ido bien.&rdquo;
+    </span>
+  </a>
   <a class="palette-card" href="/escritos/dias-de-colores/verde-melancolico/">
 
     <span class="swatch" style="--tone:#93997B;"></span>
