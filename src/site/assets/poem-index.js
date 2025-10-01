@@ -18,8 +18,9 @@
     while ((match = LINK_RE.exec(markdown)) !== null) {
       const rawTarget = (match[1] || '').trim();
       if (!rawTarget) continue;
-      const label = (match[2] || rawTarget).trim();
-      const baseName = rawTarget.replace(/\.md$/i, '');
+      const target = rawTarget.endsWith('\\') ? rawTarget.slice(0, -1) : rawTarget;
+      const label = (match[2] || target).trim();
+      const baseName = target.replace(/\.md$/i, '');
       const fileName = `${baseName}.md`;
       items.push({ label, fileName });
     }
@@ -29,6 +30,14 @@
   function normalizeBase(base) {
     if (!base) return '';
     return base.endsWith('/') ? base : `${base}/`;
+  }
+
+  function encodePathSegments(path) {
+    if (!path) return '';
+    return path
+      .split('/')
+      .map((segment) => encodeURIComponent(segment))
+      .join('/');
   }
 
   function clearList(listEl) {
@@ -93,13 +102,14 @@
         const li = document.createElement('li');
         const link = document.createElement('a');
         const encoded = encodeURIComponent(fileName);
+        const encodedPath = encodePathSegments(fileName);
         link.href = `${viewerBase}?file=${encoded}`;
         link.textContent = label;
         li.appendChild(link);
         listEl.appendChild(li);
 
         if (!isFileProtocol) {
-          fetch(`${fileBasePath}${encoded}`, { method: 'HEAD' })
+          fetch(`${fileBasePath}${encodedPath}`, { method: 'HEAD' })
             .then((response) => {
               if (!response.ok) {
                 throw new Error('missing');
