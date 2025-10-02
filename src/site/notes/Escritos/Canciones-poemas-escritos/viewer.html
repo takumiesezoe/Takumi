@@ -314,7 +314,7 @@
             fileName.startsWith('./') ||
             fileName.startsWith('../')
           ) {
-            return fileName;
+            return encodePathSegments(fileName);
           }
           const encoded = encodePathSegments(fileName);
           if (!notesBasePrefix) {
@@ -332,6 +332,9 @@
             // Keep raw string if decoding fails
           }
           decoded = decoded.trim();
+          if (decoded.endsWith('\\')) {
+            decoded = decoded.slice(0, -1);
+          }
           if (!decoded) return null;
           return decoded.toLowerCase().endsWith('.md') ? decoded : `${decoded}.md`;
         }
@@ -341,14 +344,21 @@
           return label.replace(/-/g, ' ').trim();
         }
 
+        function cleanLinkTarget(raw) {
+          const value = (raw || '').trim();
+          if (value.endsWith('\\')) {
+            return value.slice(0, -1);
+          }
+          return value;
+        }
+
         function parseIndex(markdown) {
           const items = [];
           if (!markdown) return items;
           let match;
           while ((match = LINK_RE.exec(markdown)) !== null) {
-            const rawTarget = (match[1] || '').trim();
-            if (!rawTarget) continue;
-            const target = rawTarget.endsWith('\\') ? rawTarget.slice(0, -1) : rawTarget;
+            const target = cleanLinkTarget(match[1]);
+            if (!target) continue;
             const label = formatLabel((match[2] || target).trim());
             const baseName = target.replace(/\.md$/i, '');
             const fileName = `${baseName}.md`;

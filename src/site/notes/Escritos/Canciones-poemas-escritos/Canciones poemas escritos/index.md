@@ -2,7 +2,6 @@
 {"dg-publish":true,"dg-permalink":"/Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/","permalink":"/Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/","title":"Canciones, poemas y escritos"}
 ---
 
-[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Pereza\|Pereza]]
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Amantes\|Amantes]]
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Brazos\|Brazos]]
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Recuerdos\|Recuerdos]]
@@ -34,9 +33,9 @@
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Basura\|Basura]]  
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Escenarios\|Escenarios]]  
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Eli x2\|Eli x2]]  
-[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Delgado\|Delgado]]
-[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Porro\|Porro]]
-[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Me ha dado miedo\|Me ha dado miedo]]
+[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Delgado\|Delgado]]  
+[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Porro\|Porro]]  
+[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Me ha dado miedo\|Me ha dado miedo]]  
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Repito\|Repito]]  
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/No es justo\|No es justo]]  
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/In the neck\|In the neck]]  
