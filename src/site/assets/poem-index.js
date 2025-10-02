@@ -18,8 +18,9 @@
     while ((match = LINK_RE.exec(markdown)) !== null) {
       const rawTarget = (match[1] || '').trim();
       if (!rawTarget) continue;
-      const label = (match[2] || rawTarget).trim();
-      const baseName = rawTarget.replace(/\.md$/i, '');
+      const target = rawTarget.endsWith('\\') ? rawTarget.slice(0, -1) : rawTarget;
+      const label = (match[2] || target).trim();
+      const baseName = target.replace(/\.md$/i, '');
       const fileName = `${baseName}.md`;
       items.push({ label, fileName });
     }
@@ -31,10 +32,23 @@
     return base.endsWith('/') ? base : `${base}/`;
   }
 
+  function encodePathSegments(path) {
+    if (!path) return '';
+    return path
+      .split('/')
+      .map((segment) => encodeURIComponent(segment))
+      .join('/');
+  }
+
   function clearList(listEl) {
     while (listEl.firstChild) {
       listEl.removeChild(listEl.firstChild);
     }
+  }
+
+  function ensureTrailingSlash(value) {
+    if (!value) return '';
+    return value.endsWith('/') ? value : `${value}/`;
   }
 
   function initPoemIndex(options = {}) {
@@ -45,6 +59,7 @@
       indexPath = 'index.md',
       viewerBase = 'viewer.html',
       fileBase = '',
+      pathPrefix = '',
       limit = null,
       fallbackMarkdown = null,
     } = options;
@@ -71,6 +86,7 @@
     }
 
     const fileBasePath = normalizeBase(fileBase);
+    const normalizedPrefix = ensureTrailingSlash(pathPrefix);
     const limited = Number.isFinite(limit) && limit > 0 ? Math.floor(limit) : null;
     const isFileProtocol =
       typeof window !== 'undefined' &&
@@ -90,16 +106,21 @@
       setHintVisible(false);
 
       visibleItems.forEach(({ label, fileName }) => {
+        const targetFileName =
+          normalizedPrefix && fileName && !fileName.includes('/')
+            ? `${normalizedPrefix}${fileName}`
+            : fileName;
         const li = document.createElement('li');
         const link = document.createElement('a');
-        const encoded = encodeURIComponent(fileName);
+        const encoded = encodeURIComponent(targetFileName);
+        const encodedPath = encodePathSegments(targetFileName);
         link.href = `${viewerBase}?file=${encoded}`;
         link.textContent = label;
         li.appendChild(link);
         listEl.appendChild(li);
 
         if (!isFileProtocol) {
-          fetch(`${fileBasePath}${encoded}`, { method: 'HEAD' })
+          fetch(`${fileBasePath}${encodedPath}`, { method: 'HEAD' })
             .then((response) => {
               if (!response.ok) {
                 throw new Error('missing');

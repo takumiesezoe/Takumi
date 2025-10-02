@@ -272,8 +272,9 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       (function () {
-        const INDEX_PATH = 'index.md';
+        const INDEX_PATH = encodePathSegments('Canciones poemas escritos/index.md');
         const LINK_RE = /\[\[([^\]|#]+?)(?:\|([^\]]+))?\]\]/g;
+        const DEFAULT_PATH_PREFIX = 'Escritos/Canciones-poemas-escritos/Canciones poemas escritos/';
         const titleEl = document.getElementById('title');
         const contentEl = document.getElementById('content');
         const prevButton = document.getElementById('prev');
@@ -290,6 +291,44 @@
 
         const isFileProtocol = window.location.protocol === 'file:';
 
+        const viewerDir = window.location.pathname.replace(/[^/]*$/, '');
+        const viewerSegments = viewerDir.split('/').filter(Boolean);
+        const notesIndex = viewerSegments.indexOf('notes');
+        const depthAfterNotes =
+          notesIndex === -1 ? 0 : Math.max(viewerSegments.length - (notesIndex + 1), 0);
+        const notesBasePrefix = depthAfterNotes > 0 ? '../'.repeat(depthAfterNotes) : '';
+
+        const PATH_PROTOCOL_RE = /^(?:[a-z]+:|\/)/i;
+
+        function encodePathSegments(path) {
+          if (!path) return path;
+          return path
+            .split('/')
+            .map((segment) => encodeURIComponent(segment))
+            .join('/');
+        }
+
+        function applyDefaultPrefix(fileName) {
+          if (!fileName) return fileName;
+          return fileName.includes('/') ? fileName : `${DEFAULT_PATH_PREFIX}${fileName}`;
+        }
+
+        function resolveRequestPath(fileName) {
+          if (!fileName) return fileName;
+          if (
+            PATH_PROTOCOL_RE.test(fileName) ||
+            fileName.startsWith('./') ||
+            fileName.startsWith('../')
+          ) {
+            return encodePathSegments(fileName);
+          }
+          const encoded = encodePathSegments(fileName);
+          if (!notesBasePrefix) {
+            return encoded;
+          }
+          return `${notesBasePrefix}${encoded}`;
+        }
+
         function normalizeFileName(raw) {
           if (!raw) return null;
           let decoded = raw;
@@ -299,8 +338,12 @@
             // Keep raw string if decoding fails
           }
           decoded = decoded.trim();
+          if (decoded.endsWith('\\')) {
+            decoded = decoded.slice(0, -1);
+          }
           if (!decoded) return null;
-          return decoded.toLowerCase().endsWith('.md') ? decoded : `${decoded}.md`;
+          const withExtension = decoded.toLowerCase().endsWith('.md') ? decoded : `${decoded}.md`;
+          return applyDefaultPrefix(withExtension);
         }
 
         function formatLabel(label) {
@@ -308,16 +351,24 @@
           return label.replace(/-/g, ' ').trim();
         }
 
+        function cleanLinkTarget(raw) {
+          const value = (raw || '').trim();
+          if (value.endsWith('\\')) {
+            return value.slice(0, -1);
+          }
+          return value;
+        }
+
         function parseIndex(markdown) {
           const items = [];
           if (!markdown) return items;
           let match;
           while ((match = LINK_RE.exec(markdown)) !== null) {
-            const target = (match[1] || '').trim();
+            const target = cleanLinkTarget(match[1]);
             if (!target) continue;
             const label = formatLabel((match[2] || target).trim());
             const baseName = target.replace(/\.md$/i, '');
-            const fileName = `${baseName}.md`;
+            const fileName = applyDefaultPrefix(`${baseName}.md`);
             items.push({ label, fileName });
           }
           return items;
@@ -417,7 +468,8 @@
           updateControls();
 
           const fileName = item.fileName;
-          fetch(fileName)
+          const requestPath = resolveRequestPath(fileName);
+          fetch(requestPath)
             .then((response) => {
               if (!response.ok) {
                 throw new Error(`No se pudo cargar el archivo (HTTP ${response.status})`);
@@ -436,7 +488,11 @@
             })
             .catch((error) => {
               titleEl.textContent = item.label;
-              renderError(error.message, `Intenté cargar: <code>${fileName}</code>`);
+              const details =
+                requestPath && requestPath !== fileName
+                  ? `Intenté cargar: <code>${requestPath}</code><br />Ruta solicitada: <code>${fileName}</code>`
+                  : `Intenté cargar: <code>${fileName}</code>`;
+              renderError(error.message, details);
               updateDocumentTitle(item.label);
               state.loading = false;
             });
