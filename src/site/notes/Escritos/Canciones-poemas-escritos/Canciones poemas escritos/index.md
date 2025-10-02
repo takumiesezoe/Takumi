@@ -2,6 +2,7 @@
 {"dg-publish":true,"dg-permalink":"/Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/","permalink":"/Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/","title":"Canciones, poemas y escritos"}
 ---
 
+[[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Pereza\|Pereza]]
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Amantes\|Amantes]]
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Brazos\|Brazos]]
 [[Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Recuerdos\|Recuerdos]]
