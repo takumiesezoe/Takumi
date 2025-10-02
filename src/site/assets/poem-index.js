@@ -112,8 +112,13 @@
             : fileName;
         const li = document.createElement('li');
         const link = document.createElement('a');
+<<<<<<< HEAD
         const encoded = encodeURIComponent(targetFileName);
         const encodedPath = encodePathSegments(targetFileName);
+=======
+        const encoded = encodeURIComponent(fileName);
+        const encodedPath = encodePathSegments(fileName);
+>>>>>>> main
         link.href = `${viewerBase}?file=${encoded}`;
         link.textContent = label;
         li.appendChild(link);
