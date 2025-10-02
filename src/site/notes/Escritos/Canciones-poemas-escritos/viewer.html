@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visor rosa &amp; negro</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg-color: #05010a;
+        --panel-color: #12061d;
+        --panel-border: rgba(255, 95, 162, 0.35);
+        --panel-hover: rgba(255, 95, 162, 0.08);
+        --text-color: #fce6f6;
+        --muted-color: #d6a9c5;
+        --accent-color: #ff5fa2;
+        --accent-strong: #ff82c0;
+        --shadow-color: rgba(10, 2, 20, 0.55);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, rgba(255, 95, 162, 0.12), transparent 55%), var(--bg-color);
+        color: var(--text-color);
+        font-family: "Figtree", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        display: flex;
+        flex-direction: column;
+      }
+
+      a {
+        color: var(--accent-strong);
+      }
+
+      main.container {
+        flex: 1;
+        width: min(1200px, 100%);
+        margin-inline: auto;
+        padding: 3rem 1.5rem 4rem;
+        display: grid;
+        gap: 2rem;
+      }
+
+      @media (min-width: 70rem) {
+        main.container {
+          grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+          align-items: start;
+        }
+      }
+
+      header.viewer-toolbar {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1.75rem;
+        background: var(--panel-color);
+        border-radius: 1.5rem;
+        border: 1px solid var(--panel-border);
+        box-shadow: 0 20px 45px var(--shadow-color);
+      }
+
+      header.viewer-toolbar .back-link {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+
+      @media (min-width: 48rem) {
+        header.viewer-toolbar {
+          justify-content: space-between;
+        }
+        header.viewer-toolbar .back-link {
+          flex: initial;
+        }
+      }
+
+      header.viewer-toolbar .controls {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      header.viewer-toolbar button,
+      header.viewer-toolbar select {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 95, 162, 0.35);
+        color: var(--text-color);
+        border-radius: 999px;
+        padding: 0.45rem 1.25rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      header.viewer-toolbar button:hover,
+      header.viewer-toolbar button:focus-visible,
+      header.viewer-toolbar select:hover,
+      header.viewer-toolbar select:focus-visible {
+        background: var(--panel-hover);
+        border-color: rgba(255, 95, 162, 0.6);
+      }
+
+      header.viewer-toolbar button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      header.viewer-toolbar label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      header.viewer-toolbar label span {
+        font-size: 0.85rem;
+        color: var(--muted-color);
+      }
+
+      section.viewer {
+        background: var(--panel-color);
+        border-radius: 1.5rem;
+        border: 1px solid var(--panel-border);
+        box-shadow: 0 25px 50px var(--shadow-color);
+        padding: 2.5rem 2.75rem;
+      }
+
+      section.viewer h1 {
+        color: var(--accent-color);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        text-align: center;
+        margin-top: 0;
+      }
+
+      article#content {
+        line-height: 1.7;
+        margin-top: 2rem;
+      }
+
+      article#content p {
+        color: var(--text-color);
+      }
+
+      article#content em,
+      article#content strong {
+        color: var(--accent-strong);
+      }
+
+      aside.sidebar {
+        position: sticky;
+        top: 2.5rem;
+        align-self: start;
+        background: rgba(18, 6, 29, 0.65);
+        border-radius: 1.5rem;
+        border: 1px solid var(--panel-border);
+        padding: 2rem;
+        box-shadow: 0 20px 45px var(--shadow-color);
+      }
+
+      aside.sidebar h2 {
+        margin-top: 0;
+        color: var(--accent-strong);
+        font-size: 1.05rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      aside.sidebar p {
+        color: var(--muted-color);
+      }
+
+      aside.sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 1.25rem 0 0;
+        max-height: min(60vh, 540px);
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      aside.sidebar li a {
+        color: inherit;
+        text-decoration: none;
+        display: block;
+        padding: 0.35rem 0.65rem;
+        border-radius: 0.75rem;
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+
+      aside.sidebar li a:hover,
+      aside.sidebar li a:focus-visible {
+        background: var(--panel-hover);
+        color: var(--accent-strong);
+      }
+
+      aside.sidebar li.active a {
+        background: rgba(255, 95, 162, 0.12);
+        color: var(--accent-strong);
+      }
+
+      .muted {
+        color: var(--muted-color);
+      }
+
+      footer.links {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: var(--muted-color);
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="viewer-toolbar">
+        <p class="back-link"><a href="./">← Volver al índice</a></p>
+        <div class="controls" role="group" aria-label="Controles del visor">
+          <button id="prev" type="button">Anterior</button>
+          <label>
+            <span>Poema</span>
+            <select id="poem-picker" aria-label="Seleccionar poema"></select>
+          </label>
+          <button id="next" type="button">Siguiente</button>
+        </div>
+        <p class="back-link"><a href="../../../index.html">Volver a Takumi’s Garden</a></p>
+      </header>
+
+      <section class="viewer" aria-live="polite">
+        <h1 id="title">Cargando…</h1>
+        <article id="content">Cargando contenido…</article>
+      </section>
+
+      <aside class="sidebar" aria-labelledby="sidebar-heading">
+        <h2 id="sidebar-heading">Poemas disponibles</h2>
+        <p id="sidebar-status" class="muted">Cargando índice…</p>
+        <ul id="poem-list"></ul>
+      </aside>
+
+      <footer class="links">
+        <p>
+          ¿Problemas para cargar? <br />
+          <span class="muted">
+            Si abriste el archivo directamente, utiliza "Live Server" o un hosting para evitar las restricciones del
+            navegador.
+          </span>
+        </p>
+      </footer>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      (function () {
+        const INDEX_PATH = 'index.md';
+        const LINK_RE = /\[\[([^\]|#]+?)(?:\|([^\]]+))?\]\]/g;
+        const titleEl = document.getElementById('title');
+        const contentEl = document.getElementById('content');
+        const prevButton = document.getElementById('prev');
+        const nextButton = document.getElementById('next');
+        const picker = document.getElementById('poem-picker');
+        const sidebarStatusEl = document.getElementById('sidebar-status');
+        const sidebarListEl = document.getElementById('poem-list');
+
+        const state = {
+          items: [],
+          currentIndex: -1,
+          loading: false,
+        };
+
+        const isFileProtocol = window.location.protocol === 'file:';
+
+        const viewerDir = window.location.pathname.replace(/[^/]*$/, '');
+        const viewerSegments = viewerDir.split('/').filter(Boolean);
+        const notesIndex = viewerSegments.indexOf('notes');
+        const depthAfterNotes =
+          notesIndex === -1 ? 0 : Math.max(viewerSegments.length - (notesIndex + 1), 0);
+        const notesBasePrefix = depthAfterNotes > 0 ? '../'.repeat(depthAfterNotes) : '';
+
+        const PATH_PROTOCOL_RE = /^(?:[a-z]+:|\/)/i;
+
+        function encodePathSegments(path) {
+          if (!path) return path;
+          return path
+            .split('/')
+            .map((segment) => encodeURIComponent(segment))
+            .join('/');
+        }
+
+        function resolveRequestPath(fileName) {
+          if (!fileName) return fileName;
+          if (
+            PATH_PROTOCOL_RE.test(fileName) ||
+            fileName.startsWith('./') ||
+            fileName.startsWith('../')
+          ) {
+            return encodePathSegments(fileName);
+          }
+          const encoded = encodePathSegments(fileName);
+          if (!notesBasePrefix) {
+            return encoded;
+          }
+          return `${notesBasePrefix}${encoded}`;
+        }
+
+        function normalizeFileName(raw) {
+          if (!raw) return null;
+          let decoded = raw;
+          try {
+            decoded = decodeURIComponent(raw);
+          } catch (error) {
+            // Keep raw string if decoding fails
+          }
+          decoded = decoded.trim();
+          if (decoded.endsWith('\\')) {
+            decoded = decoded.slice(0, -1);
+          }
+          if (!decoded) return null;
+          return decoded.toLowerCase().endsWith('.md') ? decoded : `${decoded}.md`;
+        }
+
+        function formatLabel(label) {
+          if (!label) return '';
+          return label.replace(/-/g, ' ').trim();
+        }
+
+        function cleanLinkTarget(raw) {
+          const value = (raw || '').trim();
+          if (value.endsWith('\\')) {
+            return value.slice(0, -1);
+          }
+          return value;
+        }
+
+        function parseIndex(markdown) {
+          const items = [];
+          if (!markdown) return items;
+          let match;
+          while ((match = LINK_RE.exec(markdown)) !== null) {
+            const target = cleanLinkTarget(match[1]);
+            if (!target) continue;
+            const label = formatLabel((match[2] || target).trim());
+            const baseName = target.replace(/\.md$/i, '');
+            const fileName = `${baseName}.md`;
+            items.push({ label, fileName });
+          }
+          return items;
+        }
+
+        function setLoading(message) {
+          titleEl.textContent = message;
+          contentEl.textContent = 'Cargando contenido…';
+        }
+
+        function renderMarkdown(markdown) {
+          if (typeof marked !== 'undefined') {
+            contentEl.innerHTML = marked.parse(markdown);
+          } else {
+            contentEl.textContent = markdown;
+          }
+        }
+
+        function renderError(message, details) {
+          const parts = [`<p style="color:#ff8cc5"><strong>Error:</strong> ${message}</p>`];
+          if (details) {
+            parts.push(`<p>${details}</p>`);
+          }
+          if (isFileProtocol) {
+            parts.push(
+              '<p>Si abriste el visor directamente como archivo, prueba usar "Abrir con Live Server" o un hosting para evitar las restricciones del navegador.</p>'
+            );
+          }
+          contentEl.innerHTML = parts.join('');
+        }
+
+        function highlightActiveItem() {
+          const { items, currentIndex } = state;
+          const links = sidebarListEl.querySelectorAll('li');
+          links.forEach((li, idx) => {
+            if (idx === currentIndex) {
+              li.classList.add('active');
+              const anchor = li.querySelector('a');
+              if (anchor) {
+                anchor.setAttribute('aria-current', 'true');
+              }
+            } else {
+              li.classList.remove('active');
+              const anchor = li.querySelector('a');
+              if (anchor) {
+                anchor.removeAttribute('aria-current');
+              }
+            }
+          });
+        }
+
+        function updateControls() {
+          const { currentIndex, items } = state;
+          prevButton.disabled = currentIndex <= 0;
+          nextButton.disabled = currentIndex === -1 || currentIndex >= items.length - 1;
+          if (picker.options.length === items.length) {
+            picker.selectedIndex = currentIndex;
+          }
+        }
+
+        function updateDocumentTitle(label) {
+          const base = 'Canciones, poemas y escritos';
+          document.title = label ? `${label} | ${base}` : `Visor rosa & negro`;
+        }
+
+        function updateUrl(fileName, { replace = false } = {}) {
+          const encoded = encodeURIComponent(fileName);
+          const url = `${window.location.pathname}?file=${encoded}`;
+          const stateData = { file: fileName };
+          if (replace) {
+            window.history.replaceState(stateData, '', url);
+          } else {
+            window.history.pushState(stateData, '', url);
+          }
+        }
+
+        function scrollToTop() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function loadFileAt(index, options = {}) {
+          const { items } = state;
+          if (index < 0 || index >= items.length) {
+            renderError('No se encontró el poema solicitado.');
+            updateDocumentTitle(null);
+            return;
+          }
+          const { replaceState = false, skipScroll = false, updateHistory = true } = options;
+          const item = items[index];
+          state.currentIndex = index;
+          state.loading = true;
+          setLoading('Cargando…');
+          highlightActiveItem();
+          if (picker.options.length === items.length) {
+            picker.selectedIndex = index;
+          }
+          updateControls();
+
+          const fileName = item.fileName;
+          const requestPath = resolveRequestPath(fileName);
+          fetch(requestPath)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`No se pudo cargar el archivo (HTTP ${response.status})`);
+              }
+              return response.text();
+            })
+            .then((markdown) => {
+              titleEl.textContent = item.label;
+              renderMarkdown(markdown);
+              updateDocumentTitle(item.label);
+              highlightActiveItem();
+              if (!skipScroll) {
+                scrollToTop();
+              }
+              state.loading = false;
+            })
+            .catch((error) => {
+              titleEl.textContent = item.label;
+              const details =
+                requestPath && requestPath !== fileName
+                  ? `Intenté cargar: <code>${requestPath}</code><br />Ruta solicitada: <code>${fileName}</code>`
+                  : `Intenté cargar: <code>${fileName}</code>`;
+              renderError(error.message, details);
+              updateDocumentTitle(item.label);
+              state.loading = false;
+            });
+
+          if (updateHistory) {
+            updateUrl(fileName, { replace: replaceState });
+          }
+        }
+
+        function loadFileByName(fileName, options = {}) {
+          if (!fileName) {
+            if (state.items.length) {
+              loadFileAt(0, { replaceState: true });
+            } else {
+              setLoading('Sin archivo');
+              contentEl.textContent = 'Falta el parámetro ?file=…';
+            }
+            return;
+          }
+          const normalized = fileName.toLowerCase();
+          const index = state.items.findIndex((item) => item.fileName.toLowerCase() === normalized);
+          if (index === -1) {
+            titleEl.textContent = 'Poema no encontrado';
+            renderError('No se encontró el poema solicitado en el índice.', `Valor recibido: <code>${fileName}</code>`);
+            updateDocumentTitle(null);
+            return;
+          }
+          loadFileAt(index, options);
+        }
+
+        function buildSidebar(items) {
+          sidebarListEl.innerHTML = '';
+          items.forEach((item, index) => {
+            const li = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = `?file=${encodeURIComponent(item.fileName)}`;
+            link.textContent = item.label;
+            link.addEventListener('click', (event) => {
+              event.preventDefault();
+              loadFileAt(index);
+            });
+            li.appendChild(link);
+            sidebarListEl.appendChild(li);
+          });
+          sidebarStatusEl.textContent = `${items.length} poema${items.length === 1 ? '' : 's'} listados.`;
+        }
+
+        function buildPicker(items) {
+          picker.innerHTML = '';
+          items.forEach((item, index) => {
+            const option = document.createElement('option');
+            option.value = item.fileName;
+            option.textContent = item.label;
+            option.dataset.index = index;
+            picker.appendChild(option);
+          });
+          picker.disabled = !items.length;
+        }
+
+        function handlePickerChange() {
+          const value = picker.value;
+          if (!value) return;
+          loadFileByName(value);
+        }
+
+        function handlePrev() {
+          if (state.currentIndex > 0) {
+            loadFileAt(state.currentIndex - 1);
+          }
+        }
+
+        function handleNext() {
+          if (state.currentIndex < state.items.length - 1) {
+            loadFileAt(state.currentIndex + 1);
+          }
+        }
+
+        function handleKeyNavigation(event) {
+          if (state.loading) return;
+          if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+          if (event.key === 'ArrowLeft') {
+            event.preventDefault();
+            handlePrev();
+          } else if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            handleNext();
+          }
+        }
+
+        function init() {
+          prevButton.addEventListener('click', handlePrev);
+          nextButton.addEventListener('click', handleNext);
+          picker.addEventListener('change', handlePickerChange);
+          window.addEventListener('keydown', handleKeyNavigation);
+
+          fetch(INDEX_PATH)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(`No se pudo cargar index.md (HTTP ${response.status})`);
+              }
+              return response.text();
+            })
+            .then((markdown) => {
+              const items = parseIndex(markdown);
+              if (!items.length) {
+                throw new Error('El índice no contiene enlaces a poemas.');
+              }
+              state.items = items;
+              buildSidebar(items);
+              buildPicker(items);
+
+              const params = new URLSearchParams(window.location.search);
+              const raw = params.get('file');
+              const initialFile = normalizeFileName(raw) || items[0].fileName;
+              loadFileByName(initialFile, { replaceState: true, skipScroll: true });
+            })
+            .catch((error) => {
+              sidebarStatusEl.textContent = 'No se pudo preparar el índice.';
+              renderError(error.message);
+              console.error(error);
+            });
+
+          window.addEventListener('popstate', (event) => {
+            const file = normalizeFileName(event.state && event.state.file);
+            if (file) {
+              loadFileByName(file, { replaceState: true, skipScroll: true, updateHistory: false });
+            } else {
+              const params = new URLSearchParams(window.location.search);
+              const raw = params.get('file');
+              const fallbackFile = normalizeFileName(raw);
+              if (fallbackFile) {
+                loadFileByName(fallbackFile, { replaceState: true, skipScroll: true, updateHistory: false });
+              } else if (state.items.length) {
+                loadFileAt(0, { replaceState: true, skipScroll: true, updateHistory: false });
+              }
+            }
+          });
+        }
+
+        init();
+      })();
+    </script>
+  </body>
+</html>
