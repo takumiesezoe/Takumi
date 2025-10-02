@@ -62,6 +62,15 @@
 </style>
 
 <div class="palette-grid">
+  <a class="palette-card" href="/escritos/dias-de-colores/blanco-de-nuevos-comienzos/">
+
+    <span class="swatch" style="--tone:#F4F4F4;"></span>
+    <span class="tone-name">Blanco de nuevos comienzos 🤍</span>
+    <span class="tone-meta">#F4F4F4</span>
+    <span class="tone-quote">
+      &ldquo;Blanco que guarda la respiración antes del salto.&rdquo;
+    </span>
+  </a>
   <a class="palette-card" href="/escritos/dias-de-colores/naranja-en-espera/">
 
     <span class="swatch" style="--tone:#DC7630;"></span>
