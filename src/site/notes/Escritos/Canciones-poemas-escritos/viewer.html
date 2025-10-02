@@ -297,19 +297,30 @@
           notesIndex === -1 ? 0 : Math.max(viewerSegments.length - (notesIndex + 1), 0);
         const notesBasePrefix = depthAfterNotes > 0 ? '../'.repeat(depthAfterNotes) : '';
 
+        const PATH_PROTOCOL_RE = /^(?:[a-z]+:|\/)/i;
+
+        function encodePathSegments(path) {
+          if (!path) return path;
+          return path
+            .split('/')
+            .map((segment) => encodeURIComponent(segment))
+            .join('/');
+        }
+
         function resolveRequestPath(fileName) {
           if (!fileName) return fileName;
           if (
-            /^(?:[a-z]+:|\/)/i.test(fileName) ||
+            PATH_PROTOCOL_RE.test(fileName) ||
             fileName.startsWith('./') ||
             fileName.startsWith('../')
           ) {
             return fileName;
           }
+          const encoded = encodePathSegments(fileName);
           if (!notesBasePrefix) {
-            return fileName;
+            return encoded;
           }
-          return `${notesBasePrefix}${fileName}`;
+          return `${notesBasePrefix}${encoded}`;
         }
 
         function normalizeFileName(raw) {
