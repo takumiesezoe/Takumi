@@ -1,8 +1,17 @@
 ---
+<<<<<<<< HEAD:src/site/notes/Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Me pica.md
 {"dg-publish":true,"permalink":"/escritos/canciones-poemas-escritos/canciones-poemas-escritos/me-pica/"}
 ---
 
 
+========
+Fecha de creación:
+Idioma: Spanish
+Número:
+dg-publish: true
+---
+
+>>>>>>>> main:Escritos/Canciones-poemas-escritos/Canciones poemas escritos/Me pica.md
 Me pica, me pica tanto que casi escuece.
 Escuece, y empieza a doler.
 

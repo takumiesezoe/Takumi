@@ -1,7 +1,9 @@
 ---
-{"dg-publish":true,"permalink":"/escritos/canciones-poemas-escritos/canciones-poemas-escritos/delgado/"}
+Fecha de creación: 2025-08-29T19:23
+Idioma: Spanish
+Número: 51
+dg-publish: true
 ---
-
 Todo por adelgazar:
 
 Forzarme a entrenar
