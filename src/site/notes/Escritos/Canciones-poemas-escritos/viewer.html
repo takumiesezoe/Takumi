@@ -272,7 +272,7 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
       (function () {
-        const INDEX_PATH = 'index.md';
+        const INDEX_PATH = encodePathSegments('Canciones poemas escritos/index.md');
         const LINK_RE = /\[\[([^\]|#]+?)(?:\|([^\]]+))?\]\]/g;
         const titleEl = document.getElementById('title');
         const contentEl = document.getElementById('content');
