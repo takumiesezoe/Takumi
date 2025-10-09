@@ -1,0 +1,10 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Índice de poemas</title>
+<style>body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#0b0b12;color:#eee}
+header,main{max-width:900px;margin:0 auto;padding:16px}a{color:#9ad;text-decoration:none}a:hover{text-decoration:underline}
+ul{list-style:disc;padding-left:22px}.muted{opacity:.8}</style></head>
+<body><header><h1>Índice de poemas</h1><p class="muted">Haz clic para abrir en el visor.</p></header>
+<main><ul id="list"></ul></main>
+<script>(function(){const L=document.getElementById('list');const poems=["Borroso.md"];L.innerHTML=poems.map(n=>{const t=n.replace(/\.md$/,'');return `<li><a href="viewer.html?file=poems/${encodeURIComponent(n)}">${t}</a></li>`}).join('');})();</script>
+</body></html>

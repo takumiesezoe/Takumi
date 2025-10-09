@@ -1,0 +1,23 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Visor de poema</title>
+<style>body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6;background:#0b0b12;color:#eee}
+header,main{max-width:900px;margin:0 auto;padding:16px}a{color:#9ad;text-decoration:none}
+.btn{display:inline-block;margin-right:8px;padding:6px 10px;border:1px solid #334;border-radius:8px}#status{opacity:.8}</style>
+</head><body>
+<header><h1 id="title">Visor de poema</h1>
+<a class="btn" href="index.html">← Índice</a>
+<a id="raw" class="btn" href="#" download aria-disabled="true">Descargar .md</a>
+<p id="status">Cargando…</p></header>
+<main><div id="content"></div></main>
+<script src="https://unpkg.com/marked/marked.min.js"></script>
+<script>(function(){const qs=new URLSearchParams(location.search);const file=qs.get('file');
+const $=id=>document.getElementById(id);const s=$('status'),c=$('content'),t=$('title'),r=$('raw');
+if(!file){s.textContent='Falta ?file=poems/Nombre.md';return;}
+function stripYAML(src){src=src.replace(/^\uFEFF/,'').replace(/\r\n?/g,'\n');if(src.startsWith('---')){const m=src.match(/^---\n[\s\S]*?\n---\n?/);if(m)return src.slice(m[0].length);}return src;}
+fetch(file).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.text();})
+.then(md=>{const body=stripYAML(md).trim();if(!body){s.textContent='El archivo no tiene cuerpo (solo YAML).';return;}
+c.innerHTML=(window.marked?marked.parse(body):body);s.textContent='Listo.';t.textContent=(file.split('/').pop()||'Poema').replace(/\.md$/,'');
+r.href=file;r.removeAttribute('aria-disabled');r.download=file.split('/').pop()||'poema.md';})
+.catch(()=>s.textContent='No se pudo cargar el poema.');})();</script>
+</body></html>
