@@ -3,7 +3,7 @@ title: Canciones, poemas y escritos
 dg-publish: true
 dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
 
- 
+[[Amantes|Amantes]] 
 [[Pereza|Pereza]]
 [[I want it to hurt|I want it to hurt]]
 [[Me pica|Me pica]]
