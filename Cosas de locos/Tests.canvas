@@ -1,9 +1,0 @@
-{
-	"nodes":[
-		{"id":"e4aead3fcdb85f07","type":"file","file":"IMG_6663.png","x":-56,"y":-194,"width":256,"height":179},
-		{"id":"a932e185d003bebf","type":"file","file":"IMG_6664.png","x":203,"y":-195,"width":258,"height":180},
-		{"id":"445826786c4e0c52","type":"file","file":"IMG_6665.png","x":202,"y":-17,"width":256,"height":179},
-		{"id":"70bcb75fecba2fc0","type":"file","file":"IMG_6666.png","x":-55,"y":-18,"width":256,"height":179}
-	],
-	"edges":[]
-}

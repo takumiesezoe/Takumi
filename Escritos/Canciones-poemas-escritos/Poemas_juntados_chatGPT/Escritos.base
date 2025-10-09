@@ -1,6 +1,0 @@
-views:
-  - type: table
-    name: Tabla
-    sort:
-      - property: file.mtime
-        direction: DESC
