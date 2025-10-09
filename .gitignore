@@ -1,4 +1,7 @@
 *
 !.gitignore
-!.nojekyll
-!site/**
+!docs/**
+EO
+*
+!.gitignore
+!docs/**
