@@ -30,6 +30,34 @@
   <p>Poemas convertidos en ecos digitales.</p>
   <div id="poem-list">Cargando poemas...</div>
   <footer>© Takumi / Ezoe 2025</footer>
-  <script src="scripts/poem-index.js"></script>
+ <script>
+(async () => {
+  const listEl = document.querySelector('#poem-list');   // <ul id="poem-list"> en tu HTML
+  const statusEl = document.querySelector('#status');     // opcional
+  
+  try {
+    // Cargamos el JSON en el mismo orden; cache bust para evitar caché de Pages
+    const res = await fetch('./poems/index.json?ts=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const files = await res.json();           // ← YA VIENE ORDENADO. NO HACER .sort() AQUÍ
+
+    // Limpia y pinta en el mismo orden
+    listEl.innerHTML = '';
+    for (const file of files) {
+      const li = document.createElement('li');
+      const a  = document.createElement('a');
+      a.href = './poems/viewer.html?poem=' + encodeURIComponent(file);
+      a.textContent = file.replace(/\.md$/i, '');
+      li.appendChild(a);
+      listEl.appendChild(li);
+    }
+
+    if (statusEl) statusEl.textContent = `${files.length} poemas`;
+  } catch (err) {
+    console.error(err);
+    if (statusEl) statusEl.textContent = 'No se pudieron listar los poemas';
+  }
+})();
+</script>
 </body>
 </html>
