@@ -1,7 +1,3 @@
 *
-!.gitignore
-!docs/**
-EO
-*
-!.gitignore
-!docs/**
+!/docs/
+!/docs/**
