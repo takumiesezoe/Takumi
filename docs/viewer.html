@@ -16,24 +16,36 @@
   <h1 id="title">Poema</h1>
   <pre id="poem">Cargando…</pre>
 
-  <script>
-  (async () => {
-    const params = new URLSearchParams(location.search);
-    const name = params.get('poem');
-    if (!name) { document.getElementById('poem').textContent = 'Archivo no especificado.'; return; }
-    document.getElementById('title').textContent = name.replace(/\.md$/i, '');
-    const url = './' + name + '?ts=' + Date.now();
-    try {
-      console.log('[Viewer] fetch', url);
-      const res = await fetch(url, { cache: 'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const text = await res.text();
-      document.getElementById('poem').textContent = text;
-    } catch (e) {
-      console.error(e);
-      document.getElementById('poem').textContent = 'No se pudo cargar el poema: ' + e.message;
-    }
-  })();
-  </script>
+<script>
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const name = params.get('poem');
+  const titleEl = document.getElementById('title');
+  const pre = document.getElementById('poem');
+
+  if (!name) {
+    pre.textContent = 'Archivo no especificado.';
+    return;
+  }
+
+  // título sin .md
+  titleEl.textContent = name.replace(/\.md$/i, '');
+
+  // 🔥 importante: ajustar ruta al subdirectorio poems/
+  const url = './poems/' + encodeURIComponent(name) + '?t=' + Date.now();
+
+  try {
+    console.log('[viewer] fetch', url);
+    const res = await fetch(url, { cache: 'no-store' });
+    console.log('[viewer] status', res.status);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    pre.textContent = text;
+  } catch (e) {
+    console.error(e);
+    pre.textContent = 'No se pudo cargar el poema: ' + e.message;
+  }
+})();
+</script>
 </body>
 </html>
