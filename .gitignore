@@ -1,8 +1,5 @@
-.obsidian/plugins/digitalgarden/data.json
-.obsidian/plugins/digitalgarden/
-.obsidian/
-.obsidian/
-.obsidian/
-.DS_Store
-Thumbs.db
-.DS_Store
+
+*
+!.gitignore
+!.nojekyll
+!site/**
