@@ -39,7 +39,7 @@
       for (const file of files) {
         const li = document.createElement('li');
         const a  = document.createElement('a');
-        a.href = './poems/viewer.html?poem=' + encodeURIComponent(file);
+        a.href = './viewer.html?poem=' + encodeURIComponent(file);
         a.textContent = file.replace(/\.md$/i, '');
         li.appendChild(a);
         list.appendChild(li);
