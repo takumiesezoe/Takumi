@@ -1,44 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Poema — Takumi’s Garden</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Poema</title>
   <style>
-    body {
-      background: #0b0b0b;
-      color: #f5e6f7;
-      font-family: 'Georgia', serif;
-      max-width: 800px;
-      margin: 60px auto;
-      line-height: 1.6;
-      padding: 20px;
-      white-space: pre-wrap;
-    }
-    a { color: #ffb7ff; text-decoration: none; }
-    a:hover { color: #ff8be4; }
-    h1 { text-align: center; }
+    body { font-family: Georgia, serif; padding: 2rem; background:#0b0b0f; color:#f4eafd; line-height:1.7 }
+    a { color:#c9a7ff; }
+    pre { white-space: pre-wrap; }
+    h1 { color:#e6c9ff; margin:0 0 1rem; }
   </style>
 </head>
 <body>
-  <a href="index.html">← Volver</a>
-  <h1 id="title"></h1>
-  <article id="content"></article>
+  <a href="../index.html">← Volver</a>
+  <h1 id="title">Poema</h1>
+  <pre id="poem">Cargando…</pre>
+
   <script>
+  (async () => {
     const params = new URLSearchParams(location.search);
-    const file = params.get('file');
-    const titleEl = document.getElementById('title');
-    const contentEl = document.getElementById('content');
-    if (!file) {
-      titleEl.textContent = "Poema no encontrado";
-    } else {
-      fetch('poems/' + file)
-        .then(r => r.text())
-        .then(text => {
-          titleEl.textContent = file.replace('.md', '');
-          contentEl.textContent = text;
-        })
-        .catch(() => titleEl.textContent = "Error al cargar el poema");
+    const name = params.get('poem');
+    if (!name) { document.getElementById('poem').textContent = 'Archivo no especificado.'; return; }
+    document.getElementById('title').textContent = name.replace(/\.md$/i, '');
+    const url = './' + name + '?ts=' + Date.now();
+    try {
+      console.log('[Viewer] fetch', url);
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      document.getElementById('poem').textContent = text;
+    } catch (e) {
+      console.error(e);
+      document.getElementById('poem').textContent = 'No se pudo cargar el poema: ' + e.message;
     }
+  })();
   </script>
 </body>
 </html>
