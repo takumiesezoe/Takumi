@@ -1,82 +1,117 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Takumi · Poemas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Takumi — Índice</title>
   <style>
-    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 2rem; background:#0b0b0f; color:#f4eafd; }
-    h1 { margin: 0 0 1rem; color:#e6c9ff; }
-    #status { opacity:.8; margin:.25rem 0 1rem; }
-    ul { list-style: none; padding: 0; margin: 0; }
-    li { margin: .35rem 0; }
-    a { color:#c9a7ff; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .layout { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
-    .main { flex: 1 1 18rem; }
-    .side { flex: 0 1 16rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: .75rem; }
-    .side h2 { margin-top: 0; margin-bottom: .5rem; color:#f7d4ff; }
-    .side p { margin-top: 0; }
-    @media (max-width: 720px) {
-      .layout { flex-direction: column; }
-      .side { width: 100%; padding: 1rem 1.5rem; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background-color: #0d0d0d;
+      color: #e5e5e5;
+      margin: 0;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 0.4rem 0;
+    }
+    a {
+      color: #b19cd9;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .error {
+      color: #ff8080;
+      margin-top: 0.5rem;
+    }
+    .collection-card {
+      display: block;
+      padding: 1rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      text-decoration: none;
+      margin-bottom: 1rem;
+      transition: background 0.2s;
+    }
+    .collection-card:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    .collection-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+    .collection-desc {
+      opacity: 0.8;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <h1>🌸 Poemas</h1>
-  <div class="layout">
-    <section class="main">
-      <p id="status">Cargando poemas…</p>
-      <ul id="poem-list"></ul>
-    </section>
-    <aside class="side">
-      <h2>Colecciones</h2>
-      <p id="folder-status">Cargando colecciones…</p>
-      <ul id="folder-list"></ul>
-    </aside>
-  </div>
+  <h1>🌙 Takumi</h1>
 
- <script>
-(async function () {
-  const BASE = '/Takumi'; // base del repo en GitHub Pages
-  const ul = document.getElementById('poem-list'); // <ul id="poem-list"> en tu HTML
-  const errorBox = document.getElementById('poem-error'); // <div id="poem-error"></div>
+  <section id="poems">
+    <h2>Poemas</h2>
+    <div id="poem-error" class="error"></div>
+    <ul id="poem-list"><li>Cargando poemas...</li></ul>
+  </section>
 
-  try {
-    // Carga del índice (ajusta la ruta si tu index.json está en otro sitio)
-    const res = await fetch(`${BASE}/poems/index.json`, { cache: 'no-store' });
-    const data = await res.json();
+  <section id="collections-section">
+    <h2>Colecciones</h2>
+    <div id="collections"><div>Cargando colecciones...</div></div>
+  </section>
 
-    // data puede ser ["A.md", "B.md"] o [{name:"A.md", path:"poems/A.md"}, ...]
-    const names = (Array.isArray(data) ? data : [])
-      .filter(Boolean)
-      .map(item => {
-        if (typeof item === 'string') return item;
-        if (item && typeof item === 'object') return item.path || item.name || '';
-        return '';
-      })
-      .filter(n => typeof n === 'string' && n.toLowerCase().endsWith('.md'))
-      .map(n => n.replace(/^.*\//, ''))         // quita carpetas
-      .filter(n => n.toLowerCase() !== 'index.md' && n !== '')
-      .sort((a, b) => a.localeCompare(b, 'es')); // opcional: orden alfabético
+  <script>
+  (async function () {
+    const BASE = '/Takumi';      // base del sitio en GitHub Pages
+    const SORT = 'newest';       // 'alpha' | 'newest' | 'oldest'
 
-    // pinta la lista
-    ul.innerHTML = '';
-    for (const file of names) {
-      const title = file.replace(/\.md$/i, '');
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.textContent = title;
-      a.href = `${BASE}/poems/${encodeURIComponent(title)}.md`;
-      li.appendChild(a);
-      ul.appendChild(li);
-    }
-  } catch (e) {
-    if (errorBox) errorBox.textContent = `No se pudieron listar los poemas: ${e.message}`;
-    console.error(e);
-  }
-})();
-</script>
-</body>
-</html>
+    const ul = document.getElementById('poem-list');
+    const errorBox = document.getElementById('poem-error');
+
+    try {
+      const res = await fetch(`${BASE}/poems/index.json?ts=${Date.now()}`, { cache: 'no-store' });
+      const data = await res.json();
+
+      let poems = (Array.isArray(data) ? data : [])
+        .map(item => {
+          if (typeof item === 'string') {
+            const slug = item.replace(/^.*\//, '').replace(/\.md$/i, '');
+            return { title: slug, slug };
+          }
+          if (item && typeof item === 'object') {
+            const slug = (item.slug || item.name || item.path || '').replace(/^.*\//, '').replace(/\.md$/i, '');
+            return { title: item.title || slug, slug, date: item.date || null };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      // Ordenar según SORT
+      const byAlpha = (a,b) => a.title.localeCompare(b.title, 'es', {sensitivity:'base'});
+      const byDate = (a,b,dir) => {
+        const da = a.date ? Date.parse(a.date) : NaN;
+        const db = b.date ? Date.parse(b.date) : NaN;
+        if (isNaN(da) && isNaN(db)) return byAlpha(a,b);
+        if (isNaN(da)) return 1;
+        if (isNaN(db)) return -1;
+        return dir === 'desc' ? (db - da) : (da - db);
+      };
+
+      if
