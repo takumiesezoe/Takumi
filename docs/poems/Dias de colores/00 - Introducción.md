@@ -1,3 +1,4 @@
+
 ---
 title: Días de colores
 tags:
@@ -20,3 +21,4 @@ Cada entrada conserva las referencias internas que usé al escribirlas (`[[ ]]`,
 - **05 - Gris silencio** cierra la semana con una nota de descanso.
 
 > _Pequeña advertencia_: son apuntes personales que hablan de salud mental, terapia y recuerdos familiares. Léelos con paciencia.
+
