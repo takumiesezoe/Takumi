@@ -195,5 +195,97 @@ async function getOrderFromMarkdown(BASE) {
   }
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const BASE = '/Takumi';
+  console.log('Takumi index boot (usa orden de index.md con [[wikilinks]])', { BASE });
+
+  const ul = document.getElementById('poem-list');
+  const err = document.getElementById('poem-error');
+  const colWrap = document.getElementById('collections');
+
+  async function safeJSON(url) {
+    const r = await fetch(url + `?ts=${Date.now()}`, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`${r.status} ${r.statusText} (${url})`);
+    return r.json();
+  }
+
+  async function safeText(url) {
+    const r = await fetch(url + `?ts=${Date.now()}`, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`${r.status} ${r.statusText} (${url})`);
+    return r.text();
+  }
+
+  // --- Extrae orden desde [[Título|Slug]]
+  async function getOrderFromMarkdown() {
+    const md = await safeText(`${BASE}/poems/index.md`);
+    const order = [];
+    const regex = /\[\[(?:([^\]|]+)\|)?([^\]]+)\]\]/g;
+    let m;
+    while ((m = regex.exec(md))) {
+      const slug = (m[2] || m[1] || '').trim();
+      if (slug && !order.includes(slug)) order.push(slug);
+    }
+    console.log('Orden detectado en index.md:', order);
+    return order;
+  }
+
+  // --- Normaliza el JSON
+  function normalizePoems(data) {
+    return (Array.isArray(data) ? data : []).map(it => {
+      if (typeof it === 'string') {
+        const slug = it.replace(/^.*\//, '').replace(/\.md$/i, '');
+        return { title: slug, slug };
+      } else if (it && typeof it === 'object') {
+        const slug = (it.slug || it.name || it.path || '').replace(/^.*\//, '').replace(/\.md$/i, '');
+        return { title: it.title || slug, slug };
+      }
+      return null;
+    }).filter(Boolean);
+  }
+
+  try {
+    const [order, json] = await Promise.all([
+      getOrderFromMarkdown(),
+      safeJSON(`${BASE}/poems/index.json`)
+    ]);
+
+    const poems = normalizePoems(json);
+    const bySlug = new Map(poems.map(p => [p.slug, p]));
+
+    // Reordenar según index.md
+    const ordered = [];
+    order.forEach(slug => {
+      const p = bySlug.get(slug);
+      if (p) {
+        ordered.push(p);
+        bySlug.delete(slug);
+      }
+    });
+
+    // Añadir los que no estaban en index.md
+    for (const p of bySlug.values()) ordered.push(p);
+
+    // Renderizar lista
+    ul.innerHTML = '';
+    ordered.forEach(p => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.textContent = p.title;
+      a.href = `${BASE}/poems/${encodeURIComponent(p.slug)}.md`;
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+  } catch (e) {
+    if (err) err.textContent = `No se pudieron listar los poemas: ${e.message}`;
+    console.error(e);
+  }
+
+  // --- Colecciones
+  try {
+    const cols = await safeJSON(`${BASE}/collections/index.json`);
+    colWrap.innerHTML = '';
+    (cols || []).forEach(c => {
+
 </body>
 </html>
