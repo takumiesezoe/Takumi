@@ -3,7 +3,8 @@ async function renderPoemIndex({
   statusId = "status",
   folderListId,
   folderStatusId,
-  indexPath = "./poems/index.json"
+  indexPath = "./poems/index.json",
+  orderPath
 } = {}) {
   const list = document.getElementById(listId);
   if (!list) {
@@ -17,12 +18,63 @@ async function renderPoemIndex({
   const querySep = indexPath.includes("?") ? "&" : "?";
   const url = `${indexPath}${querySep}ts=${Date.now()}`;
 
+  let orderPromise = null;
+  const orderTarget = typeof orderPath === "string" && orderPath.length
+    ? orderPath
+    : indexPath.replace(/index\.json(\?.*)?$/i, "index.md");
+
+  if (orderTarget && orderTarget !== indexPath) {
+    const orderQuery = orderTarget.includes("?") ? "&" : "?";
+    const orderUrl = `${orderTarget}${orderQuery}ts=${Date.now()}`;
+    orderPromise = fetch(orderUrl, { cache: "no-store" })
+      .then((res) => (res.ok ? res.text() : ""))
+      .catch((error) => {
+        console.warn("[poem-index] No se pudo cargar el índice Markdown", error);
+        return "";
+      });
+  }
+
   try {
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
     const entries = await res.json();
     if (!Array.isArray(entries)) throw new Error("Formato de index.json no válido");
+
+    let orderMap = null;
+    if (orderPromise) {
+      const orderText = await orderPromise;
+      if (orderText) {
+        orderMap = new Map();
+        const seenKeys = new Set();
+        const linkRegex = /\[\[(.+?)\|(.+?)\]\]/g;
+        let match;
+        let position = 0;
+        while ((match = linkRegex.exec(orderText))) {
+          const target = match[1].trim();
+          const label = match[2].trim();
+          if (!label) {
+            position += 1;
+            continue;
+          }
+          const variants = [label, target];
+          const targetNoExt = target.replace(/\.md$/i, "");
+          if (targetNoExt && targetNoExt !== target) variants.push(targetNoExt);
+          const targetLast = targetNoExt.split("/").pop();
+          if (targetLast && !variants.includes(targetLast)) variants.push(targetLast);
+
+          for (const variant of variants) {
+            const key = variant.trim();
+            if (!key || seenKeys.has(key)) continue;
+            orderMap.set(key, position);
+            orderMap.set(key.toLowerCase(), position);
+            seenKeys.add(key);
+          }
+          position += 1;
+        }
+        if (!orderMap.size) orderMap = null;
+      }
+    }
 
     let poemCount = 0;
     let folderCount = 0;
@@ -41,18 +93,91 @@ async function renderPoemIndex({
       return item;
     };
 
-    for (const entry of entries) {
-
+    const normalizedEntries = entries.map((entry, index) => {
       if (typeof entry === "string") {
         const title = entry.replace(/\.md$/i, "");
         const href = `./viewer.html?poem=${encodeURIComponent(entry)}`;
-        poemFragment.appendChild(makeItem(title, href, "poem"));
-        poemCount += 1;
-      } else if (entry && typeof entry === "object" && entry.type === "folder" && entry.path && entry.index) {
+        return {
+          kind: "poem",
+          title,
+          href,
+          description: "",
+          keys: [title, entry, title.toLowerCase()],
+          originalIndex: index
+        };
+      }
 
+      if (!entry || typeof entry !== "object") {
+        return { kind: "unknown", originalIndex: index, raw: entry };
+      }
+
+      if (entry.type === "folder" && entry.path && entry.index) {
         const displayName = entry.name || entry.path;
         const href = entry.url || `./collection.html?folder=${encodeURIComponent(entry.path)}`;
-        const item = makeItem(`📁 ${displayName}`, href, "folder");
+        const keys = [displayName, entry.path];
+        if (entry.name && entry.name !== entry.path) keys.push(entry.name);
+        return {
+          kind: "folder",
+          title: displayName,
+          href,
+          description: entry.description || "",
+          keys,
+          originalIndex: index
+        };
+      }
+
+      const file = typeof entry.file === "string" ? entry.file : typeof entry.path === "string" ? entry.path : null;
+      if (!file) {
+        return { kind: "unknown", originalIndex: index, raw: entry };
+      }
+
+      const safeFile = file;
+      const display = entry.title || entry.name || safeFile;
+      const title = display.replace ? display.replace(/\.md$/i, "") : String(display);
+      const href = entry.url ? entry.url : `./viewer.html?poem=${encodeURIComponent(safeFile)}`;
+      const baseKeys = [title, safeFile];
+      const noExt = safeFile.replace(/\.md$/i, "");
+      if (noExt && noExt !== title) baseKeys.push(noExt);
+      return {
+        kind: "poem",
+        title,
+        href,
+        description: "",
+        keys: baseKeys,
+        originalIndex: index
+      };
+    });
+
+    const entriesToRender = orderMap
+      ? [...normalizedEntries].sort((a, b) => {
+          const rankFor = (item) => {
+            if (!orderMap) return Number.POSITIVE_INFINITY;
+            if (!item || !item.keys) return Number.POSITIVE_INFINITY;
+            for (const key of item.keys) {
+              if (typeof key !== "string") continue;
+              const trimmed = key.trim();
+              if (!trimmed) continue;
+              if (orderMap.has(trimmed)) return orderMap.get(trimmed);
+              const lower = trimmed.toLowerCase();
+              if (orderMap.has(lower)) return orderMap.get(lower);
+            }
+            return Number.POSITIVE_INFINITY;
+          };
+          const rankA = rankFor(a);
+          const rankB = rankFor(b);
+          if (rankA !== rankB) return rankA - rankB;
+          return a.originalIndex - b.originalIndex;
+        })
+      : normalizedEntries;
+
+    for (const entry of entriesToRender) {
+      if (!entry || entry.kind === "unknown") {
+        console.warn("[poem-index] Entrada ignorada", entry && entry.raw ? entry.raw : entry);
+        continue;
+      }
+
+      if (entry.kind === "folder") {
+        const item = makeItem(`📁 ${entry.title}`, entry.href, "folder");
         if (entry.description) {
           const desc = document.createElement("small");
           desc.textContent = entry.description;
@@ -67,25 +192,12 @@ async function renderPoemIndex({
           poemFragment.appendChild(item);
         }
         folderCount += 1;
-
-      } else if (
-        typeof entry === "string" ||
-        (entry && typeof entry === "object" && (typeof entry.file === "string" || typeof entry.path === "string"))
-      ) {
-        const file = typeof entry === "string" ? entry : entry.file || entry.path;
-        const safeFile = typeof file === "string" ? file : String(file);
-        const display = (entry && typeof entry === "object" && (entry.title || entry.name)) || file;
-        const title = display.replace ? display.replace(/\.md$/i, "") : String(display);
-        const href = (entry && typeof entry === "object" && entry.url)
-          ? entry.url
-          : `./viewer.html?poem=${encodeURIComponent(safeFile)}`;
-        poemFragment.appendChild(makeItem(title, href, "poem"));
-        poemCount += 1;
-
-
-      } else {
-        console.warn("[poem-index] Entrada ignorada", entry);
+        continue;
       }
+
+      const poemItem = makeItem(entry.title, entry.href, "poem");
+      poemFragment.appendChild(poemItem);
+      poemCount += 1;
     }
 
     list.innerHTML = "";
