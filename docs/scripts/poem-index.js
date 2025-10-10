@@ -82,7 +82,6 @@ async function renderPoemIndex({
         poemFragment.appendChild(makeItem(title, href, "poem"));
         poemCount += 1;
 
-
       } else {
         console.warn("[poem-index] Entrada ignorada", entry);
       }
@@ -103,6 +102,7 @@ async function renderPoemIndex({
       }
     } else if (folderStatus) {
       folderStatus.textContent = "";
+
     }
 
     if (status) {
@@ -113,9 +113,11 @@ async function renderPoemIndex({
       }
       status.textContent = parts.join(" · ");
     }
+
   } catch (error) {
     console.error("[poem-index]", error);
     if (status) status.textContent = "No se pudieron listar los poemas: " + error.message;
+
   }
 }
 
