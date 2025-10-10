@@ -42,7 +42,15 @@ async function renderPoemIndex({
     };
 
     for (const entry of entries) {
-      if (entry && typeof entry === "object" && entry.type === "folder" && entry.path && entry.index) {
+
+
+      if (typeof entry === "string") {
+        const title = entry.replace(/\.md$/i, "");
+        const href = `./viewer.html?poem=${encodeURIComponent(entry)}`;
+        poemFragment.appendChild(makeItem(title, href, "poem"));
+        poemCount += 1;
+      } else if (entry && typeof entry === "object" && entry.type === "folder" && entry.path && entry.index) {
+
         const displayName = entry.name || entry.path;
         const href = entry.url || `./collection.html?folder=${encodeURIComponent(entry.path)}`;
         const item = makeItem(`📁 ${displayName}`, href, "folder");
@@ -60,6 +68,7 @@ async function renderPoemIndex({
           poemFragment.appendChild(item);
         }
         folderCount += 1;
+
       } else if (
         typeof entry === "string" ||
         (entry && typeof entry === "object" && (typeof entry.file === "string" || typeof entry.path === "string"))
@@ -73,6 +82,8 @@ async function renderPoemIndex({
           : `./viewer.html?poem=${encodeURIComponent(safeFile)}`;
         poemFragment.appendChild(makeItem(title, href, "poem"));
         poemCount += 1;
+
+
       } else {
         console.warn("[poem-index] Entrada ignorada", entry);
       }
@@ -103,6 +114,7 @@ async function renderPoemIndex({
       }
       status.textContent = parts.join(" · ");
     }
+
   } catch (error) {
     console.error("[poem-index]", error);
     if (status) status.textContent = "No se pudieron listar los poemas: " + error.message;

@@ -2,8 +2,8 @@
 title: Canciones, poemas y escritos
 dg-publish: true
 dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
----
 
+[[Brazos|Brazos]]
 [[Amantes|Amantes]]
 [[Pereza|Pereza]]
 [[I want it to hurt|I want it to hurt]]
@@ -32,19 +32,38 @@ dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
 [[Delirios en la ducha|Delirios en la ducha]]
 [[Pastis|Pastis]]
 [[Basura|Basura]]
+[[Brazos|Brazos]]
+[[Amantes|Amantes]] 
+[[Pereza|Pereza]]
+[[I want it to hurt|I want it to hurt]]
+[[Me pica|Me pica]]
+[[Amigos|Amigos]]  
+[[A nadie, nunca|A nadie, nunca]]  
+[[Miradas|Miradas]]  
+[[Listas|Listas]]  
+[[Siempre|Siempre]]  
+[[Notificaciones|Notificaciones]]  
+[[Inconsciente|Inconsciente]]  
+[[Escribo|Escribo]]  
+[[Falta|Falta]]  
+[[Hospital|Hospital]]  
+[[Why is it like this|Why is it like this]]  
+[[Creencias|Creencias]]  
+[[Sound|Sound]]  
+[[Kintsugi|Kintsugi]]  
+[[Ganas|Ganas]]  
+[[Este chico|Este chico]]  
+[[Magnifico|Magnifico]]  
+[[No estoy a la altura|No estoy a la altura]]  
+[[Scars|Scars]]  
+[[Body|Body]]  
+[[My big dream|My big dream]]  
+[[Delirios en la ducha|Delirios en la ducha]]  
+[[Pastis|Pastis]]  
+[[Basura|Basura]]  
 [[Escenarios|Escenarios]]
 [[Eli x2|Eli x2]]
 [[Delgado|Delgado]]
-
-## Colecciones
-
-- [[Dias de colores/00 - Introducción|Dias de colores]]
-  - [[Dias de colores/01 - Azul esperanza|Azul esperanza]]
-  - [[Dias de colores/02 - Naranja impulso|Naranja impulso]]
-  - [[Dias de colores/03 - Verde refugio|Verde refugio]]
-  - [[Dias de colores/04 - Magenta latido|Magenta latido]]
-  - [[Dias de colores/05 - Gris silencio|Gris silencio]]
-
 [[Porro|Porro]]
 [[Me ha dado miedo|Me ha dado miedo]]
 [[Repito|Repito]]
@@ -95,3 +114,4 @@ dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
 [[TEA|TEA]]
 [[Seen|Seen]]
 [[Sex|Sex]]
+
