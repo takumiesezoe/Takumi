@@ -30,6 +30,13 @@
   "Escenarios.md",
   "Eli x2.md",
   "Delgado.md",
+  {
+    "type": "folder",
+    "name": "Dias de colores",
+    "path": "Dias de colores",
+    "index": "Dias de colores/index.json",
+    "description": "Colección cromática de notas breves."
+  },
   "Porro.md",
   "Me ha dado miedo.md",
   "Repito.md",

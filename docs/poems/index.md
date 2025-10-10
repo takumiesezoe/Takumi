@@ -31,10 +31,15 @@ dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
 [[Delirios en la ducha|Delirios en la ducha]]  
 [[Pastis|Pastis]]  
 [[Basura|Basura]]  
-[[Escenarios|Escenarios]]  
-[[Eli x2|Eli x2]]  
-[[Delgado|Delgado]]  
-[[Porro|Porro]]  
+[[Escenarios|Escenarios]]
+[[Eli x2|Eli x2]]
+[[Delgado|Delgado]]
+
+## Colecciones
+
+- [[Dias de colores/00 - Introducción|Dias de colores]]
+
+[[Porro|Porro]]
 [[Me ha dado miedo|Me ha dado miedo]]  
 [[Repito|Repito]]  
 [[No es justo|No es justo]]  
