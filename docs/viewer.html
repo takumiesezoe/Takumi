@@ -38,12 +38,38 @@
   const safePath = segments.map(part => encodeURIComponent(part)).join('/');
   const url = './poems/' + safePath + '?t=' + Date.now();
 
+  async function loadText(targetUrl) {
+    try {
+      const res = await fetch(targetUrl, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return await res.text();
+    } catch (fetchErr) {
+      if (location.protocol !== 'file:') throw fetchErr;
+      console.warn('[viewer] fetch falló, usando XMLHttpRequest', fetchErr);
+      return await new Promise((resolve, reject) => {
+        try {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', targetUrl, true);
+          xhr.responseType = 'text';
+          xhr.onerror = () => reject(new Error('XMLHttpRequest error'));
+          xhr.onload = () => {
+            if (xhr.status && xhr.status !== 200) {
+              reject(new Error('HTTP ' + xhr.status));
+              return;
+            }
+            resolve(xhr.responseText);
+          };
+          xhr.send();
+        } catch (xhrSetupErr) {
+          reject(xhrSetupErr);
+        }
+      });
+    }
+  }
+n
+
   try {
-    console.log('[viewer] fetch', url);
-    const res = await fetch(url, { cache: 'no-store' });
-    console.log('[viewer] status', res.status);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const text = await res.text();
+    const text = await loadText(url);
     pre.textContent = text;
   } catch (e) {
     console.error(e);
