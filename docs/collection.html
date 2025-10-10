@@ -39,17 +39,53 @@
     const folderName = segments.length ? segments[segments.length - 1] : folderParam;
 
     let description = '';
+
+    async function loadJson(url) {
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return await res.json();
+      } catch (fetchErr) {
+        if (location.protocol !== 'file:') throw fetchErr;
+        console.warn('[collection] fetch falló, usando XMLHttpRequest', fetchErr);
+        return await new Promise((resolve, reject) => {
+          try {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+            xhr.onerror = () => reject(new Error('XMLHttpRequest error'));
+            xhr.onload = () => {
+              if (xhr.status && xhr.status !== 200) {
+                reject(new Error('HTTP ' + xhr.status));
+                return;
+              }
+              if (xhr.response != null) {
+                resolve(xhr.response);
+              } else {
+                try {
+                  resolve(JSON.parse(xhr.responseText));
+                } catch (parseErr) {
+                  reject(parseErr);
+                }
+              }
+            };
+            xhr.send();
+          } catch (xhrSetupErr) {
+            reject(xhrSetupErr);
+          }
+        });
+      }
+    }
+
     try {
-      const rootRes = await fetch('./poems/index.json?ts=' + Date.now(), { cache: 'no-store' });
-      if (rootRes.ok) {
-        const rootEntries = await rootRes.json();
-        if (Array.isArray(rootEntries)) {
-          for (const entry of rootEntries) {
-            if (entry && typeof entry === 'object' && entry.type === 'folder' && entry.path === folderParam) {
-              if (entry.name) titleEl.textContent = entry.name;
-              if (entry.description) description = entry.description;
-              break;
-            }
+      const rootEntries = await loadJson('./poems/index.json?ts=' + Date.now());
+      if (Array.isArray(rootEntries)) {
+        for (const entry of rootEntries) {
+          if (entry && typeof entry === 'object' && entry.type === 'folder' && entry.path === folderParam) {
+            if (entry.name) titleEl.textContent = entry.name;
+            if (entry.description) description = entry.description;
+            break;
+
           }
         }
       }
@@ -70,9 +106,11 @@
     const indexUrl = `./poems/${safeFolder}/index.json?ts=${Date.now()}`;
 
     try {
+
       const res = await fetch(indexUrl, { cache: 'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const entries = await res.json();
+
       if (!Array.isArray(entries) || entries.length === 0) {
         status.textContent = 'La carpeta está vacía.';
         return;

@@ -17,11 +17,51 @@ async function renderPoemIndex({
   const querySep = indexPath.includes("?") ? "&" : "?";
   const url = `${indexPath}${querySep}ts=${Date.now()}`;
 
-  try {
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-    const entries = await res.json();
+  async function loadJson(targetUrl) {
+    try {
+      const res = await fetch(targetUrl, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (fetchError) {
+      const isFile = typeof window !== "undefined" && window.location && window.location.protocol === "file:";
+      if (!isFile) throw fetchError;
+
+      console.warn("[poem-index] fetch falló, intentando XMLHttpRequest", fetchError);
+      return await new Promise((resolve, reject) => {
+        try {
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", targetUrl, true);
+          xhr.responseType = "json";
+          xhr.onerror = () => {
+            reject(new Error("XMLHttpRequest error"));
+          };
+          xhr.onload = () => {
+            if (xhr.status && xhr.status !== 200) {
+              reject(new Error(`HTTP ${xhr.status}`));
+              return;
+            }
+            if (xhr.response != null) {
+              resolve(xhr.response);
+            } else {
+              try {
+                resolve(JSON.parse(xhr.responseText));
+              } catch (parseError) {
+                reject(parseError);
+              }
+            }
+          };
+          xhr.send();
+        } catch (xhrSetupError) {
+          reject(xhrSetupError);
+        }
+      });
+    }
+  }
+
+  try {
+    const entries = await loadJson(url);
+
     if (!Array.isArray(entries)) throw new Error("Formato de index.json no válido");
 
     let poemCount = 0;
@@ -43,12 +83,14 @@ async function renderPoemIndex({
 
     for (const entry of entries) {
 
+
       if (typeof entry === "string") {
         const title = entry.replace(/\.md$/i, "");
         const href = `./viewer.html?poem=${encodeURIComponent(entry)}`;
         poemFragment.appendChild(makeItem(title, href, "poem"));
         poemCount += 1;
       } else if (entry && typeof entry === "object" && entry.type === "folder" && entry.path && entry.index) {
+
 
         const displayName = entry.name || entry.path;
         const href = entry.url || `./collection.html?folder=${encodeURIComponent(entry.path)}`;
@@ -102,6 +144,7 @@ async function renderPoemIndex({
       }
     } else if (folderStatus) {
       folderStatus.textContent = "";
+
 
     }
 
