@@ -28,11 +28,15 @@
     return;
   }
 
-  // título sin .md
-  titleEl.textContent = name.replace(/\.md$/i, '');
+  // título sin .md (mostramos solo el último segmento)
+  const title = name.split('/').pop();
+  titleEl.textContent = title ? title.replace(/\.md$/i, '') : name;
+  document.title = titleEl.textContent + ' · Poema';
 
   // 🔥 importante: ajustar ruta al subdirectorio poems/
-  const url = './poems/' + encodeURIComponent(name) + '?t=' + Date.now();
+  const segments = name.split('/').filter(Boolean);
+  const safePath = segments.map(part => encodeURIComponent(part)).join('/');
+  const url = './poems/' + safePath + '?t=' + Date.now();
 
   try {
     console.log('[viewer] fetch', url);
