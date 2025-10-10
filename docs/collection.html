@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carpeta</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; padding: 2rem; background:#0b0b0f; color:#f4eafd; }
+    h1 { margin: 0 0 1rem; color:#e6c9ff; }
+    #status { opacity:.8; margin:.25rem 0 1rem; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { margin: .35rem 0; }
+    a { color:#c9a7ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    small { display:block; opacity:.75; margin-top:.1rem; }
+  </style>
+</head>
+<body>
+  <a href="./index.html">← Volver</a>
+  <h1 id="title">Carpeta</h1>
+  <p id="status">Cargando…</p>
+  <ul id="entry-list"></ul>
+
+  <script>
+  (async () => {
+    const params = new URLSearchParams(location.search);
+    const folderParam = params.get('folder');
+    const titleEl = document.getElementById('title');
+    const status = document.getElementById('status');
+    const list = document.getElementById('entry-list');
+
+    if (!folderParam) {
+      status.textContent = 'Carpeta no especificada.';
+      return;
+    }
+
+    const segments = folderParam.split('/').filter(Boolean);
+    const safeFolder = segments.map(part => encodeURIComponent(part)).join('/');
+    const folderName = segments.length ? segments[segments.length - 1] : folderParam;
+
+    let description = '';
+    async function loadJson(url) {
+      try {
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return await res.json();
+      } catch (fetchErr) {
+        if (location.protocol !== 'file:') throw fetchErr;
+        console.warn('[collection] fetch falló, usando XMLHttpRequest', fetchErr);
+        return await new Promise((resolve, reject) => {
+          try {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+            xhr.onerror = () => reject(new Error('XMLHttpRequest error'));
+            xhr.onload = () => {
+              if (xhr.status && xhr.status !== 200) {
+                reject(new Error('HTTP ' + xhr.status));
+                return;
+              }
+              if (xhr.response != null) {
+                resolve(xhr.response);
+              } else {
+                try {
+                  resolve(JSON.parse(xhr.responseText));
+                } catch (parseErr) {
+                  reject(parseErr);
+                }
+              }
+            };
+            xhr.send();
+          } catch (xhrSetupErr) {
+            reject(xhrSetupErr);
+          }
+        });
+      }
+    }
+
+    try {
+      const rootEntries = await loadJson('./poems/index.json?ts=' + Date.now());
+      if (Array.isArray(rootEntries)) {
+        for (const entry of rootEntries) {
+          if (entry && typeof entry === 'object' && entry.type === 'folder' && entry.path === folderParam) {
+            if (entry.name) titleEl.textContent = entry.name;
+            if (entry.description) description = entry.description;
+            break;
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('[collection] No se pudo leer poems/index.json', error);
+    }
+
+    if (titleEl.textContent === 'Carpeta') {
+      titleEl.textContent = folderName;
+    }
+    document.title = titleEl.textContent + ' · Carpeta';
+    if (description) {
+      const desc = document.createElement('small');
+      desc.textContent = description;
+      status.after(desc);
+    }
+
+    const indexUrl = `./poems/${safeFolder}/index.json?ts=${Date.now()}`;
+
+    try {
+      const entries = await loadJson(indexUrl);
+      if (!Array.isArray(entries) || entries.length === 0) {
+        status.textContent = 'La carpeta está vacía.';
+        return;
+      }
+
+      list.innerHTML = '';
+      for (const entry of entries) {
+        if (typeof entry !== 'string') continue;
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        const target = folderParam.replace(/\/+$/, '') + '/' + entry;
+        link.href = './viewer.html?poem=' + encodeURIComponent(target);
+        link.textContent = entry.replace(/\\.md$/i, '');
+        li.appendChild(link);
+        list.appendChild(li);
+      }
+
+      status.textContent = entries.length + (entries.length === 1 ? ' nota' : ' notas');
+    } catch (err) {
+      console.error('[collection]', err);
+      status.textContent = 'No se pudo cargar la carpeta: ' + err.message;
+    }
+  })();
+  </script>
+</body>
+</html>
