@@ -1,90 +1,334 @@
 [
-  "Amantes.md",
-  "Pereza.md",
-  "I want it to hurt.md",
-  "Me pica.md",
-  "Amigos.md",
-  "A nadie, nunca.md",
-  "Miradas.md",
-  "Listas.md",
-  "Siempre.md",
-  "Notificaciones.md",
-  "Inconsciente.md",
-  "Escribo.md",
-  "Falta.md",
-  "Hospital.md",
-  "Why is it like this.md",
-  "Creencias.md",
-  "Sound.md",
-  "Kintsugi.md",
-  "Ganas.md",
-  "Este chico.md",
-  "Magnifico.md",
-  "No estoy a la altura.md",
-  "Scars.md",
-  "Body.md",
-  "My big dream.md",
-  "Delirios en la ducha.md",
-  "Pastis.md",
-  "Basura.md",
-  "Escenarios.md",
-  "Eli x2.md",
-  "Delgado.md",
   {
-    "type": "folder",
-    "name": "Dias de colores",
-    "path": "Dias de colores",
-    "index": "Dias de colores/index.json",
-    "description": "Colección cromática de notas breves."
+    "title": "3 en ralla",
+    "slug": "3 en ralla"
   },
-  "Porro.md",
-  "Me ha dado miedo.md",
-  "Repito.md",
-  "No es justo.md",
-  "In the neck.md",
-  "Indicaciones.md",
-  "Alcohol.md",
-  "Sombras.md",
-  "Aphantasia.md",
-  "¿Para que.md",
-  "Duele.md",
-  "Envejecer.md",
-  "Same thing.md",
-  "Abuelo.md",
-  "No entiendo.md",
-  "Terapeuta virtual.md",
-  "Perdido.md",
-  "Alone.md",
-  "El lastimado.md",
-  "Mi cerebro.md",
-  "Afilado.md",
-  "Me volvieron a dejar.md",
-  "Random vent.md",
-  "Llanto.md",
-  "Vacio.md",
-  "SHP.com.md",
-  "Casi lo hago.md",
-  "Cronico.md",
-  "En que piensas.md",
-  "Todo.md",
-  "Disposable.md",
-  "Calladito.md",
-  "Todo mal.md",
-  "Borroso.md",
-  "Waking up or falling down.md",
-  "Escapulas.md",
-  "En la sien.md",
-  "3 en ralla.md",
-  "Tik tok curse.md",
-  "Creo que tengo tlp.md",
-  "Mala hija.md",
-  "Padres.md",
-  "Las veces que he despertado.md",
-  "Slit.md",
-  "Irrealidad.md",
-  "Redentor en ruinas.md",
-  "Mi deseo.md",
-  "TEA.md",
-  "Seen.md",
-  "Sex.md"
+  {
+    "title": "A nadie, nunca",
+    "slug": "A nadie, nunca"
+  },
+  {
+    "title": "Abuelo",
+    "slug": "Abuelo"
+  },
+  {
+    "title": "Afilado",
+    "slug": "Afilado"
+  },
+  {
+    "title": "Alcohol",
+    "slug": "Alcohol"
+  },
+  {
+    "title": "Alone",
+    "slug": "Alone"
+  },
+  {
+    "title": "Amantes",
+    "slug": "Amantes"
+  },
+  {
+    "title": "Amigos",
+    "slug": "Amigos"
+  },
+  {
+    "title": "Aphantasia",
+    "slug": "Aphantasia"
+  },
+  {
+    "title": "Basura",
+    "slug": "Basura"
+  },
+  {
+    "title": "Body",
+    "slug": "Body"
+  },
+  {
+    "title": "Borroso",
+    "slug": "Borroso"
+  },
+  {
+    "title": "Brazos",
+    "slug": "Brazos"
+  },
+  {
+    "title": "Calladito",
+    "slug": "Calladito"
+  },
+  {
+    "title": "Casi lo hago",
+    "slug": "Casi lo hago"
+  },
+  {
+    "title": "Creencias",
+    "slug": "Creencias"
+  },
+  {
+    "title": "Creo que tengo tlp",
+    "slug": "Creo que tengo tlp"
+  },
+  {
+    "title": "Cronico",
+    "slug": "Cronico"
+  },
+  {
+    "title": "Delgado",
+    "slug": "Delgado"
+  },
+  {
+    "title": "Delirios en la ducha",
+    "slug": "Delirios en la ducha"
+  },
+  {
+    "title": "Disposable",
+    "slug": "Disposable"
+  },
+  {
+    "title": "Duele",
+    "slug": "Duele"
+  },
+  {
+    "title": "El lastimado",
+    "slug": "El lastimado"
+  },
+  {
+    "title": "Eli x2",
+    "slug": "Eli x2"
+  },
+  {
+    "title": "En la sien",
+    "slug": "En la sien"
+  },
+  {
+    "title": "En que piensas",
+    "slug": "En que piensas"
+  },
+  {
+    "title": "Envejecer",
+    "slug": "Envejecer"
+  },
+  {
+    "title": "Escapulas",
+    "slug": "Escapulas"
+  },
+  {
+    "title": "Escenarios",
+    "slug": "Escenarios"
+  },
+  {
+    "title": "Escribo",
+    "slug": "Escribo"
+  },
+  {
+    "title": "Este chico",
+    "slug": "Este chico"
+  },
+  {
+    "title": "Falta",
+    "slug": "Falta"
+  },
+  {
+    "title": "Ganas",
+    "slug": "Ganas"
+  },
+  {
+    "title": "Hospital",
+    "slug": "Hospital"
+  },
+  {
+    "title": "I want it to hurt",
+    "slug": "I want it to hurt"
+  },
+  {
+    "title": "In the neck",
+    "slug": "In the neck"
+  },
+  {
+    "title": "Inconsciente",
+    "slug": "Inconsciente"
+  },
+  {
+    "title": "Indicaciones",
+    "slug": "Indicaciones"
+  },
+  {
+    "title": "Irrealidad",
+    "slug": "Irrealidad"
+  },
+  {
+    "title": "Kintsugi",
+    "slug": "Kintsugi"
+  },
+  {
+    "title": "Las veces que he despertado",
+    "slug": "Las veces que he despertado"
+  },
+  {
+    "title": "Listas",
+    "slug": "Listas"
+  },
+  {
+    "title": "Llanto",
+    "slug": "Llanto"
+  },
+  {
+    "title": "Magnifico",
+    "slug": "Magnifico"
+  },
+  {
+    "title": "Mala hija",
+    "slug": "Mala hija"
+  },
+  {
+    "title": "Me ha dado miedo",
+    "slug": "Me ha dado miedo"
+  },
+  {
+    "title": "Me pica",
+    "slug": "Me pica"
+  },
+  {
+    "title": "Me volvieron a dejar",
+    "slug": "Me volvieron a dejar"
+  },
+  {
+    "title": "Mi cerebro",
+    "slug": "Mi cerebro"
+  },
+  {
+    "title": "Mi deseo",
+    "slug": "Mi deseo"
+  },
+  {
+    "title": "Miradas",
+    "slug": "Miradas"
+  },
+  {
+    "title": "My big dream",
+    "slug": "My big dream"
+  },
+  {
+    "title": "No entiendo",
+    "slug": "No entiendo"
+  },
+  {
+    "title": "No es justo",
+    "slug": "No es justo"
+  },
+  {
+    "title": "No estoy a la altura",
+    "slug": "No estoy a la altura"
+  },
+  {
+    "title": "Notificaciones",
+    "slug": "Notificaciones"
+  },
+  {
+    "title": "Padres",
+    "slug": "Padres"
+  },
+  {
+    "title": "Pastis",
+    "slug": "Pastis"
+  },
+  {
+    "title": "Perdido",
+    "slug": "Perdido"
+  },
+  {
+    "title": "Pereza",
+    "slug": "Pereza"
+  },
+  {
+    "title": "Porro",
+    "slug": "Porro"
+  },
+  {
+    "title": "Random vent",
+    "slug": "Random vent"
+  },
+  {
+    "title": "Recuerdos",
+    "slug": "Recuerdos"
+  },
+  {
+    "title": "Redentor en ruinas",
+    "slug": "Redentor en ruinas"
+  },
+  {
+    "title": "Repito",
+    "slug": "Repito"
+  },
+  {
+    "title": "SHP.com",
+    "slug": "SHP.com"
+  },
+  {
+    "title": "Same thing",
+    "slug": "Same thing"
+  },
+  {
+    "title": "Scars",
+    "slug": "Scars"
+  },
+  {
+    "title": "Seen",
+    "slug": "Seen"
+  },
+  {
+    "title": "Sex",
+    "slug": "Sex"
+  },
+  {
+    "title": "Siempre",
+    "slug": "Siempre"
+  },
+  {
+    "title": "Slit",
+    "slug": "Slit"
+  },
+  {
+    "title": "Sombras",
+    "slug": "Sombras"
+  },
+  {
+    "title": "Sound",
+    "slug": "Sound"
+  },
+  {
+    "title": "TEA",
+    "slug": "TEA"
+  },
+  {
+    "title": "Terapeuta virtual",
+    "slug": "Terapeuta virtual"
+  },
+  {
+    "title": "Tik tok curse",
+    "slug": "Tik tok curse"
+  },
+  {
+    "title": "Todo mal",
+    "slug": "Todo mal"
+  },
+  {
+    "title": "Todo",
+    "slug": "Todo"
+  },
+  {
+    "title": "Vacio",
+    "slug": "Vacio"
+  },
+  {
+    "title": "Waking up or falling down",
+    "slug": "Waking up or falling down"
+  },
+  {
+    "title": "Why is it like this",
+    "slug": "Why is it like this"
+  },
+  {
+    "title": "¿Para que",
+    "slug": "¿Para que"
+  }
 ]
