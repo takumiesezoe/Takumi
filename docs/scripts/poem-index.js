@@ -43,6 +43,7 @@ async function renderPoemIndex({
 
     for (const entry of entries) {
 
+
       if (typeof entry === "string") {
         const title = entry.replace(/\.md$/i, "");
         const href = `./viewer.html?poem=${encodeURIComponent(entry)}`;
@@ -113,6 +114,7 @@ async function renderPoemIndex({
       }
       status.textContent = parts.join(" · ");
     }
+
   } catch (error) {
     console.error("[poem-index]", error);
     if (status) status.textContent = "No se pudieron listar los poemas: " + error.message;
