@@ -42,12 +42,14 @@ async function renderPoemIndex({
     };
 
     for (const entry of entries) {
+
       if (typeof entry === "string") {
         const title = entry.replace(/\.md$/i, "");
         const href = `./viewer.html?poem=${encodeURIComponent(entry)}`;
         poemFragment.appendChild(makeItem(title, href, "poem"));
         poemCount += 1;
       } else if (entry && typeof entry === "object" && entry.type === "folder" && entry.path && entry.index) {
+
         const displayName = entry.name || entry.path;
         const href = entry.url || `./collection.html?folder=${encodeURIComponent(entry.path)}`;
         const item = makeItem(`📁 ${displayName}`, href, "folder");
@@ -65,6 +67,22 @@ async function renderPoemIndex({
           poemFragment.appendChild(item);
         }
         folderCount += 1;
+
+      } else if (
+        typeof entry === "string" ||
+        (entry && typeof entry === "object" && (typeof entry.file === "string" || typeof entry.path === "string"))
+      ) {
+        const file = typeof entry === "string" ? entry : entry.file || entry.path;
+        const safeFile = typeof file === "string" ? file : String(file);
+        const display = (entry && typeof entry === "object" && (entry.title || entry.name)) || file;
+        const title = display.replace ? display.replace(/\.md$/i, "") : String(display);
+        const href = (entry && typeof entry === "object" && entry.url)
+          ? entry.url
+          : `./viewer.html?poem=${encodeURIComponent(safeFile)}`;
+        poemFragment.appendChild(makeItem(title, href, "poem"));
+        poemCount += 1;
+
+
       } else {
         console.warn("[poem-index] Entrada ignorada", entry);
       }
