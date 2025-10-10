@@ -37,12 +37,49 @@
     </aside>
   </div>
 
-  <script>
-    window.POEM_INDEX_OPTIONS = {
-      folderListId: "folder-list",
-      folderStatusId: "folder-status"
-    };
-  </script>
-  <script src="./scripts/poem-index.js" defer></script>
+
+ <script>
+(async function () {
+  const BASE = '/Takumi'; // base del repo en GitHub Pages
+  const ul = document.getElementById('poem-list'); // <ul id="poem-list"> en tu HTML
+  const errorBox = document.getElementById('poem-error'); // <div id="poem-error"></div>
+
+  try {
+    // Carga del índice (ajusta la ruta si tu index.json está en otro sitio)
+    const res = await fetch(`${BASE}/poems/index.json`, { cache: 'no-store' });
+    const data = await res.json();
+
+    // data puede ser ["A.md", "B.md"] o [{name:"A.md", path:"poems/A.md"}, ...]
+    const names = (Array.isArray(data) ? data : [])
+      .filter(Boolean)
+      .map(item => {
+        if (typeof item === 'string') return item;
+        if (item && typeof item === 'object') return item.path || item.name || '';
+        return '';
+      })
+      .filter(n => typeof n === 'string' && n.toLowerCase().endsWith('.md'))
+      .map(n => n.replace(/^.*\//, ''))         // quita carpetas
+      .filter(n => n.toLowerCase() !== 'index.md' && n !== '')
+      .sort((a, b) => a.localeCompare(b, 'es')); // opcional: orden alfabético
+
+    // pinta la lista
+    ul.innerHTML = '';
+    for (const file of names) {
+      const title = file.replace(/\.md$/i, '');
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.textContent = title;
+      a.href = `${BASE}/poems/${encodeURIComponent(title)}.md`;
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+  } catch (e) {
+    if (errorBox) errorBox.textContent = `No se pudieron listar los poemas: ${e.message}`;
+    console.error(e);
+  }
+})();
+</script>
+
+
 </body>
 </html>

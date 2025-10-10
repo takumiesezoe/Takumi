@@ -17,6 +17,7 @@ async function renderPoemIndex({
   const querySep = indexPath.includes("?") ? "&" : "?";
   const url = `${indexPath}${querySep}ts=${Date.now()}`;
 
+
   async function loadJson(targetUrl) {
     try {
       const res = await fetch(targetUrl, { cache: "no-store" });
@@ -60,6 +61,7 @@ async function renderPoemIndex({
 
   try {
     const entries = await loadJson(url);
+
     if (!Array.isArray(entries)) throw new Error("Formato de index.json no válido");
 
     let poemCount = 0;
@@ -80,7 +82,16 @@ async function renderPoemIndex({
     };
 
     for (const entry of entries) {
-      if (entry && typeof entry === "object" && entry.type === "folder" && entry.path && entry.index) {
+
+
+      if (typeof entry === "string") {
+        const title = entry.replace(/\.md$/i, "");
+        const href = `./viewer.html?poem=${encodeURIComponent(entry)}`;
+        poemFragment.appendChild(makeItem(title, href, "poem"));
+        poemCount += 1;
+      } else if (entry && typeof entry === "object" && entry.type === "folder" && entry.path && entry.index) {
+
+
         const displayName = entry.name || entry.path;
         const href = entry.url || `./collection.html?folder=${encodeURIComponent(entry.path)}`;
         const item = makeItem(`📁 ${displayName}`, href, "folder");
@@ -98,6 +109,7 @@ async function renderPoemIndex({
           poemFragment.appendChild(item);
         }
         folderCount += 1;
+
       } else if (
         typeof entry === "string" ||
         (entry && typeof entry === "object" && (typeof entry.file === "string" || typeof entry.path === "string"))
@@ -111,6 +123,7 @@ async function renderPoemIndex({
           : `./viewer.html?poem=${encodeURIComponent(safeFile)}`;
         poemFragment.appendChild(makeItem(title, href, "poem"));
         poemCount += 1;
+
       } else {
         console.warn("[poem-index] Entrada ignorada", entry);
       }
@@ -131,6 +144,8 @@ async function renderPoemIndex({
       }
     } else if (folderStatus) {
       folderStatus.textContent = "";
+
+
     }
 
     if (status) {
@@ -141,14 +156,11 @@ async function renderPoemIndex({
       }
       status.textContent = parts.join(" · ");
     }
+
   } catch (error) {
     console.error("[poem-index]", error);
-    if (list) list.innerHTML = "";
     if (status) status.textContent = "No se pudieron listar los poemas: " + error.message;
-    if (folderList) folderList.innerHTML = "";
-    if (folderStatus) {
-      folderStatus.textContent = "No se pudieron listar las colecciones.";
-    }
+
   }
 }
 

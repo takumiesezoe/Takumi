@@ -39,6 +39,7 @@
     const folderName = segments.length ? segments[segments.length - 1] : folderParam;
 
     let description = '';
+
     async function loadJson(url) {
       try {
         const res = await fetch(url, { cache: 'no-store' });
@@ -84,6 +85,7 @@
             if (entry.name) titleEl.textContent = entry.name;
             if (entry.description) description = entry.description;
             break;
+
           }
         }
       }
@@ -104,7 +106,11 @@
     const indexUrl = `./poems/${safeFolder}/index.json?ts=${Date.now()}`;
 
     try {
-      const entries = await loadJson(indexUrl);
+
+      const res = await fetch(indexUrl, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const entries = await res.json();
+
       if (!Array.isArray(entries) || entries.length === 0) {
         status.textContent = 'La carpeta está vacía.';
         return;
