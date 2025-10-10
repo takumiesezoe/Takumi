@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Días de colores</title>
+  <style>
+    body{font-family:system-ui, sans-serif;background:#0d0d0d;color:#e5e5e5;margin:0;padding:2rem}
+    a{color:#b19cd9;text-decoration:none} a:hover{text-decoration:underline}
+    ul{list-style:none;padding:0} li{margin:.4rem 0}
+  </style>
+</head>
+<body>
+  <h1>🎨 Días de colores</h1>
+  <ul id="list"><li>Cargando…</li></ul>
+
+  <script>
+  (async()=>{
+    const BASE="/Takumi/poems/Dias%20de%20colores";
+    const ul=document.getElementById('list');
+    try{
+      // si tienes index.md con wikilinks y prefieres usarlo, cámbialo por fetch a index.md (raw)
+      const res = await fetch(`${BASE.replace('/Takumi','')}/index.json`, {cache:'no-store'});
+      let items = [];
+      if(res.ok){
+        const data = await res.json();
+        items = (Array.isArray(data)?data:[]).map(x=>({
+          title: x.title || x.slug,
+          href: `${BASE}/${encodeURIComponent((x.slug||x.title)+'.md')}`
+        }));
+      } else {
+        // fallback: pedir listado “a mano” (pon aquí los archivos si no usas index.json)
+        items = [];
+      }
+      ul.innerHTML='';
+      if(!items.length) ul.innerHTML='<li>No hay entradas aún.</li>';
+      items.forEach(it=>{
+        const li=document.createElement('li');
+        const a=document.createElement('a');
+        a.href=it.href; a.textContent=it.title;
+        li.appendChild(a); ul.appendChild(li);
+      });
+    }catch(e){
+      ul.innerHTML='<li>Error al cargar.</li>'; console.error(e);
+    }
+  })();
+  </script>
+</body>
+</html>
