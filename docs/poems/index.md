@@ -2,36 +2,10 @@
 title: Canciones, poemas y escritos
 dg-publish: true
 dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
+---
 
-[[Brazos|Brazos]]
-[[Amantes|Amantes]]
-[[Pereza|Pereza]]
-[[I want it to hurt|I want it to hurt]]
-[[Me pica|Me pica]]
-[[Amigos|Amigos]]
-[[A nadie, nunca|A nadie, nunca]]
-[[Miradas|Miradas]]
-[[Listas|Listas]]
-[[Siempre|Siempre]]
-[[Notificaciones|Notificaciones]]
-[[Inconsciente|Inconsciente]]
-[[Escribo|Escribo]]
-[[Falta|Falta]]
-[[Hospital|Hospital]]
-[[Why is it like this|Why is it like this]]
-[[Creencias|Creencias]]
-[[Sound|Sound]]
-[[Kintsugi|Kintsugi]]
-[[Ganas|Ganas]]
-[[Este chico|Este chico]]
-[[Magnifico|Magnifico]]
-[[No estoy a la altura|No estoy a la altura]]
-[[Scars|Scars]]
-[[Body|Body]]
-[[My big dream|My big dream]]
-[[Delirios en la ducha|Delirios en la ducha]]
-[[Pastis|Pastis]]
-[[Basura|Basura]]
+
+
 [[Brazos|Brazos]]
 [[Amantes|Amantes]] 
 [[Pereza|Pereza]]
