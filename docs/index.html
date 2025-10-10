@@ -78,41 +78,86 @@
   </section>
 
   <script>
-  (async function () {
-    const BASE = '/Takumi';      // base del sitio en GitHub Pages
-    console.log('Takumi index boot', { BASE: '/Takumi' });
-    const SORT = 'newest';       // 'alpha' | 'newest' | 'oldest'
+  document.addEventListener('DOMContentLoaded', async () => {
+    const BASE = '/Takumi';  // base del sitio en GitHub Pages
+    const SORT = 'newest';   // 'alpha' | 'newest' | 'oldest'
+    console.log('Takumi index boot', { BASE });
 
     const ul = document.getElementById('poem-list');
-    const errorBox = document.getElementById('poem-error');
+    const err = document.getElementById('poem-error');
+    const colWrap = document.getElementById('collections');
 
+    async function safeJSON(url) {
+      const r = await fetch(url + `?ts=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(`${r.status} ${r.statusText} (${url})`);
+      return r.json();
+    }
+
+    // ---- POEMAS ----
     try {
-      const res = await fetch(`${BASE}/poems/index.json?ts=${Date.now()}`, { cache: 'no-store' });
-      const data = await res.json();
+      const data = await safeJSON(`${BASE}/poems/index.json`);
+      const arr = (Array.isArray(data) ? data : []).map(it => {
+        if (typeof it === 'string') {
+          const slug = it.replace(/^.*\//,'').replace(/\.md$/i,'');
+          return { title: slug, slug };
+        } else if (it && typeof it === 'object') {
+          const slug = (it.slug || it.name || it.path || '').replace(/^.*\//,'').replace(/\.md$/i,'');
+          return { title: it.title || slug, slug, date: it.date || null };
+        }
+        return null;
+      }).filter(Boolean);
 
-      let poems = (Array.isArray(data) ? data : [])
-        .map(item => {
-          if (typeof item === 'string') {
-            const slug = item.replace(/^.*\//, '').replace(/\.md$/i, '');
-            return { title: slug, slug };
-          }
-          if (item && typeof item === 'object') {
-            const slug = (item.slug || item.name || item.path || '').replace(/^.*\//, '').replace(/\.md$/i, '');
-            return { title: item.title || slug, slug, date: item.date || null };
-          }
-          return null;
-        })
-        .filter(Boolean);
-
-      // Ordenar según SORT
-      const byAlpha = (a,b) => a.title.localeCompare(b.title, 'es', {sensitivity:'base'});
-      const byDate = (a,b,dir) => {
-        const da = a.date ? Date.parse(a.date) : NaN;
-        const db = b.date ? Date.parse(b.date) : NaN;
-        if (isNaN(da) && isNaN(db)) return byAlpha(a,b);
-        if (isNaN(da)) return 1;
-        if (isNaN(db)) return -1;
-        return dir === 'desc' ? (db - da) : (da - db);
+      const byAlpha = (a,b)=>a.title.localeCompare(b.title,'es',{sensitivity:'base'});
+      const byDate = (a,b,dir)=>{
+        const da=a.date?Date.parse(a.date):NaN, db=b.date?Date.parse(b.date):NaN;
+        if (isNaN(da)&&isNaN(db)) return byAlpha(a,b);
+        if (isNaN(da)) return 1; if (isNaN(db)) return -1;
+        return dir==='desc'?(db-da):(da-db);
       };
+      if (SORT==='alpha') arr.sort(byAlpha);
+      if (SORT==='newest') arr.sort((a,b)=>byDate(a,b,'desc'));
+      if (SORT==='oldest') arr.sort((a,b)=>byDate(a,b,'asc'));
 
-      if
+      ul.innerHTML = '';
+      arr.forEach(p=>{
+        const li=document.createElement('li');
+        const a=document.createElement('a');
+        a.textContent=p.title;
+        a.href = `${BASE}/poems/${encodeURIComponent(p.slug)}.md`;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+    } catch(e) {
+      if (err) err.textContent = `No se pudieron listar los poemas: ${e.message}`;
+      console.error(e);
+    }
+
+    // ---- COLECCIONES ----
+    try {
+      const cols = await safeJSON(`${BASE}/collections/index.json`);
+      colWrap.innerHTML = '';
+      (cols||[]).forEach(c=>{
+        const card=document.createElement('a');
+        card.className='collection-card';
+        card.href = c.href || '#';
+
+        const h=document.createElement('div');
+        h.className='collection-title';
+        h.textContent=c.title||'Colección';
+
+        const d=document.createElement('div');
+        d.className='collection-desc';
+        d.textContent=c.desc||'';
+
+        card.appendChild(h);
+        card.appendChild(d);
+        colWrap.appendChild(card);
+      });
+    } catch(e) {
+      if (colWrap) colWrap.textContent = `No se pudieron cargar las colecciones: ${e.message}`;
+      console.error(e);
+    }
+  });
+  </script>
+</body>
+</html>
