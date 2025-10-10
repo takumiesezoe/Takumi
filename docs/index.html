@@ -76,88 +76,113 @@
     <h2>Colecciones</h2>
     <div id="collections"><div>Cargando colecciones...</div></div>
   </section>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const BASE = '/Takumi';   // raíz en GitHub Pages
+  console.log('Takumi index boot (orden = index.md)', { BASE });
 
-  <script>
-  document.addEventListener('DOMContentLoaded', async () => {
-    const BASE = '/Takumi';  // base del sitio en GitHub Pages
-    const SORT = 'newest';   // 'alpha' | 'newest' | 'oldest'
-    console.log('Takumi index boot', { BASE });
+  const ul  = document.getElementById('poem-list');
+  const err = document.getElementById('poem-error');
+  const colWrap = document.getElementById('collections');
 
-    const ul = document.getElementById('poem-list');
-    const err = document.getElementById('poem-error');
-    const colWrap = document.getElementById('collections');
+  async function safeText(url){
+    const r = await fetch(url + `?ts=${Date.now()}`, { cache: 'no-store' });
+    if(!r.ok) throw new Error(`${r.status} ${r.statusText} (${url})`);
+    return r.text();
+  }
+  async function safeJSON(url){
+    const r = await fetch(url + `?ts=${Date.now()}`, { cache: 'no-store' });
+    if(!r.ok) throw new Error(`${r.status} ${r.statusText} (${url})`);
+    return r.json();
+  }
 
-    async function safeJSON(url) {
-      const r = await fetch(url + `?ts=${Date.now()}`, { cache: 'no-store' });
-      if (!r.ok) throw new Error(`${r.status} ${r.statusText} (${url})`);
-      return r.json();
+  // 1) Lee el orden desde poems/index.md
+  async function getOrderFromMarkdown(){
+    try{
+      const md = await safeText(`${BASE}/poems/index.md`);
+      // Extrae slugs en el orden de los enlaces del markdown
+      // Soporta formatos: [Título](/Takumi/poems/Slug.md) o (poems/Slug.md) o (Slug.md)
+      const re = /\]\((?:\/?Takumi\/)?(?:docs\/)?poems\/([^)\s]+?)(?:\.md)?\)|\]\(([^)\s]+?)(?:\.md)?\)/gi;
+      const order = [];
+      let m;
+      while((m = re.exec(md))){
+        const raw = (m[1] || m[2] || '').replace(/^.*\//,'').replace(/\.md$/i,'').trim();
+        if(raw && !order.includes(raw)) order.push(raw);
+      }
+      return order;
+    }catch(e){
+      console.warn('No se pudo leer poems/index.md, se usará JSON:', e);
+      return [];
     }
+  }
 
-    // ---- POEMAS ----
-    try {
-      const data = await safeJSON(`${BASE}/poems/index.json`);
-      const arr = (Array.isArray(data) ? data : []).map(it => {
-        if (typeof it === 'string') {
-          const slug = it.replace(/^.*\//,'').replace(/\.md$/i,'');
-          return { title: slug, slug };
-        } else if (it && typeof it === 'object') {
-          const slug = (it.slug || it.name || it.path || '').replace(/^.*\//,'').replace(/\.md$/i,'');
-          return { title: it.title || slug, slug, date: it.date || null };
-        }
-        return null;
-      }).filter(Boolean);
+  // 2) Lee el inventario desde poems/index.json (para títulos/fechas)
+  function normalizePoems(data){
+    return (Array.isArray(data) ? data : []).map(it=>{
+      if(typeof it === 'string'){
+        const slug = it.replace(/^.*\//,'').replace(/\.md$/i,'');
+        return { title: slug, slug };
+      } else if (it && typeof it === 'object'){
+        const slug = (it.slug || it.name || it.path || '').replace(/^.*\//,'').replace(/\.md$/i,'');
+        return { title: it.title || slug, slug, date: it.date || null };
+      }
+      return null;
+    }).filter(Boolean);
+  }
 
-      const byAlpha = (a,b)=>a.title.localeCompare(b.title,'es',{sensitivity:'base'});
-      const byDate = (a,b,dir)=>{
-        const da=a.date?Date.parse(a.date):NaN, db=b.date?Date.parse(b.date):NaN;
-        if (isNaN(da)&&isNaN(db)) return byAlpha(a,b);
-        if (isNaN(da)) return 1; if (isNaN(db)) return -1;
-        return dir==='desc'?(db-da):(da-db);
-      };
-      if (SORT==='alpha') arr.sort(byAlpha);
-      if (SORT==='newest') arr.sort((a,b)=>byDate(a,b,'desc'));
-      if (SORT==='oldest') arr.sort((a,b)=>byDate(a,b,'asc'));
+  try{
+    const [order, json] = await Promise.all([
+      getOrderFromMarkdown(),
+      safeJSON(`${BASE}/poems/index.json`)
+    ]);
 
-      ul.innerHTML = '';
-      arr.forEach(p=>{
-        const li=document.createElement('li');
-        const a=document.createElement('a');
-        a.textContent=p.title;
-        a.href = `${BASE}/poems/${encodeURIComponent(p.slug)}.md`;
-        li.appendChild(a);
-        ul.appendChild(li);
-      });
-    } catch(e) {
-      if (err) err.textContent = `No se pudieron listar los poemas: ${e.message}`;
-      console.error(e);
-    }
+    const poems = normalizePoems(json);
+    const bySlug = new Map(poems.map(p => [p.slug, p]));
 
-    // ---- COLECCIONES ----
-    try {
-      const cols = await safeJSON(`${BASE}/collections/index.json`);
-      colWrap.innerHTML = '';
-      (cols||[]).forEach(c=>{
-        const card=document.createElement('a');
-        card.className='collection-card';
-        card.href = c.href || '#';
+    // Reordena según index.md
+    const ordered = [];
+    order.forEach(slug=>{
+      const p = bySlug.get(slug);
+      if(p){ ordered.push(p); bySlug.delete(slug); }
+    });
+    // añade al final los que no estaban en index.md
+    for(const p of bySlug.values()) ordered.push(p);
 
-        const h=document.createElement('div');
-        h.className='collection-title';
-        h.textContent=c.title||'Colección';
+    // Pinta
+    ul.innerHTML = '';
+    ordered.forEach(p=>{
+      const li = document.createElement('li');
+      const a  = document.createElement('a');
+      a.textContent = p.title;
+      a.href = `${BASE}/poems/${encodeURIComponent(p.slug)}.md`;
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+  }catch(e){
+    if (err) err.textContent = `No se pudieron listar los poemas: ${e.message}`;
+    console.error(e);
+  }
 
-        const d=document.createElement('div');
-        d.className='collection-desc';
-        d.textContent=c.desc||'';
+  // ---- COLECCIONES (igual que antes) ----
+  try{
+    const cols = await safeJSON(`${BASE}/collections/index.json`);
+    colWrap.innerHTML = '';
+    (cols||[]).forEach(c=>{
+      const card=document.createElement('a');
+      card.className='collection-card';
+      card.href = c.href || '#';
 
-        card.appendChild(h);
-        card.appendChild(d);
-        colWrap.appendChild(card);
-      });
-    } catch(e) {
-      if (colWrap) colWrap.textContent = `No se pudieron cargar las colecciones: ${e.message}`;
-      console.error(e);
-    }
-  });
-  </script>
+      const h=document.createElement('div'); h.className='collection-title'; h.textContent=c.title||'Colección';
+      const d=document.createElement('div'); d.className='collection-desc';  d.textContent=c.desc||'';
+
+      card.appendChild(h); card.appendChild(d);
+      colWrap.appendChild(card);
+    });
+  }catch(e){
+    if (colWrap) colWrap.textContent = `No se pudieron cargar las colecciones: ${e.message}`;
+    console.error(e);
+  }
+});
+</script>
 </body>
 </html>
