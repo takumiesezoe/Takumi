@@ -1,12 +1,11 @@
 ---
+title: Azul espera-nza✈️
 dg-publish: true
+color: ""
+cover: ""
 permalink: /escritos/dias-de-colores/azul-espera-nza/
-tags:
-  - semillas
-  - color
+tags: ""
 ---
-
-
 > [!info] 🌱 Semilla de color
 > <div style="width:100%;height:80px;background:#c1e1e8;border-radius:12px;"></div>
 

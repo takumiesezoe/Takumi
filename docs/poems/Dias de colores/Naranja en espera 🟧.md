@@ -1,7 +1,10 @@
 ---
-{"dg-publish":true,"permalink":"/escritos/dias-de-colores/naranja-en-espera/","tags":["semillas","color"]}
+title: Naranja en espera 🟧
+dg-publish: true
+color: ""
+cover: ""
+{"dg-publish": "true,"permalink":"/escritos/dias-de-colores/naranja-en-espera/","tags":["semillas","color"]}"
 ---
-
 > [!info] 🌱 Semilla de color
 > <div style="width:100%;height:80px;background:#dc7630;border-radius:12px;"></div>
 
