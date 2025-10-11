@@ -8,10 +8,10 @@
   :root { --bg:#0d0d0d; --fg:#e5e5e5; --muted:#b3b3b3; --accent:#b19cd9; }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--fg);font-family:"Inter",system-ui,sans-serif;line-height:1.6;padding:2rem}
-  h1{margin:0 0 .25rem;font-size:2rem}
+  h1{margin:0 0 .25rem;font-size:2rem;font-weight:800}
   p.sub{margin:.25rem 0 1.25rem;color:var(--muted)}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-  .card{background:rgba(255,255,255,.05);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s ease, background .15s ease;text-decoration:none;color:inherit}
+  .card{background:rgba(255,255,255,.05);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s ease, background .15s ease;text-decoration:none;color:inherit;cursor:pointer}
   .card:hover{transform:translateY(-2px);background:rgba(255,255,255,.08)}
   .thumb{width:100%;aspect-ratio:16/10;object-fit:cover;background:#1f1f1f}
   .meta{display:flex;align-items:center;gap:.6rem;padding:.9rem 1rem}
@@ -19,6 +19,18 @@
   .title{font-weight:700;font-size:1rem}
   .error{color:#ff8585;margin:.5rem 0}
   .count{opacity:.75;margin:.25rem 0 1rem}
+
+  /* Modal */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-start;justify-content:center;padding:3vh 2rem;z-index:50}
+  .overlay.show{display:flex}
+  .sheet{width:100%;max-width:820px;border-radius:18px;overflow:hidden;background:rgba(20,20,20,.9);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 80px rgba(0,0,0,.5)}
+  .hero{min-height:130px;background:#222}
+  .cover{width:100%;max-height:420px;object-fit:cover;display:block}
+  .inner{padding:1.25rem 1.4rem}
+  .sheet h2{margin:.1rem 0 1rem;font-size:1.6rem}
+  .md{white-space:pre-wrap;line-height:1.7}
+  .close{position:absolute;top:12px;right:16px;background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer}
+  .back{color:#b19cd9;text-decoration:none;margin-right:.5rem}
 </style>
 </head>
 <body>
@@ -28,6 +40,21 @@
   <div id="count" class="count">Cargando…</div>
   <div id="grid" class="grid"></div>
 
+  <!-- Modal -->
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <div class="sheet">
+      <button class="close" id="closeBtn" aria-label="Cerrar">×</button>
+      <div id="hero" class="hero"></div>
+      <img id="cover" class="cover" alt="" style="display:none">
+      <div class="inner">
+        <a class="back" href="/Takumi/poems/Dias%20de%20colores/">← Volver a Días de colores</a>
+        <a class="back" id="openRaw" target="_blank" rel="noopener">Abrir .md</a>
+        <h2 id="title">Título</h2>
+        <div id="content" class="md">…</div>
+      </div>
+    </div>
+  </div>
+
 <script>
 (async()=>{
   const BASE = '/Takumi/poems/Dias%20de%20colores';
@@ -35,22 +62,24 @@
   const err  = document.getElementById('error');
   const count= document.getElementById('count');
 
+  // Helpers
+  const encPath = (p)=> p.split('/').map(encodeURIComponent).join('/');
+  const toAbs   = (p)=> p.startsWith('http') ? p : (p.startsWith('/Takumi') ? p : `${BASE}/${encPath(p)}`);
+
   function card({title, slug, color, cover}) {
     const a = document.createElement('a');
     a.className = 'card';
-    a.href = `${BASE}/${encodeURIComponent(slug)}.md`;
+    a.href = `#${encodeURIComponent(slug)}`;         // no cambiamos de página
+    a.dataset.slug = slug;
 
     if (cover) {
       const img = document.createElement('img');
       img.className = 'thumb';
       img.loading = 'lazy';
       img.alt = title;
-      // si cover es relativo, prepéndelo correctamente
-      img.src = cover.startsWith('http') ? cover :
-               (cover.startsWith('/Takumi') ? cover : `${BASE}/${encodeURIComponent(cover)}`);
+      img.src = toAbs(cover);
       a.appendChild(img);
     } else {
-      // placeholder de color si no hay imagen
       const ph = document.createElement('div');
       ph.className = 'thumb';
       if (color) ph.style.background = color;
@@ -59,42 +88,114 @@
 
     const meta = document.createElement('div');
     meta.className = 'meta';
-
     const sw = document.createElement('span');
     sw.className = 'swatch';
     if (color) sw.style.background = color;
-
     const t = document.createElement('div');
     t.className = 'title';
     t.textContent = title;
-
     meta.appendChild(sw);
     meta.appendChild(t);
     a.appendChild(meta);
+    a.addEventListener('click',(e)=>{e.preventDefault(); openPoem(slug);});
     return a;
   }
 
+  async function fetchPoem(slug){
+    const url = `${BASE}/${encodeURIComponent(slug)}.md?ts=${Date.now()}`;
+    const r = await fetch(url, {cache:'no-store'});
+    if (!r.ok) throw new Error('404');
+    const raw = await r.text();
+
+    // Front-matter simple
+    let title = slug, color = null, cover = null, body = raw;
+    const m = raw.match(/^---\s*([\s\S]*?)\s*---\s*/);
+    if (m) {
+      const fm = m[1];
+      body = raw.slice(m[0].length);
+      fm.split(/\r?\n/).forEach(line=>{
+        const mm = line.match(/^([A-Za-z0-9_-]+)\s*:\s*(.*)$/);
+        if(!mm) return;
+        let [_, k, v] = mm;
+        v = v.trim().replace(/^["']|["']$/g,'');
+        if (k==='title' && v) title = v;
+        else if (k==='color' && v) color = v;
+        else if (k==='cover' && v) cover = v;
+      });
+    }
+    return {title, color, cover, body, url};
+  }
+
+  function mdLiteToHtml(txt){
+    // Conversión mínima para que se vea decente (sin librerías):
+    let h = txt
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');   // escapar
+    h = h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    h = h.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+    h = h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(m,alt,src)=>`<img alt="${alt}" src="${src}" style="max-width:100%;border-radius:12px;margin:.5rem 0">`);
+    h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+    // párrafos
+    h = h.replace(/\r?\n\r?\n/g,'\n</p>\n<p>');
+    return `<p>${h}</p>`;
+  }
+
+  // Modal
+  const overlay = document.getElementById('overlay');
+  const hero    = document.getElementById('hero');
+  const coverEl = document.getElementById('cover');
+  const titleEl = document.getElementById('title');
+  const contEl  = document.getElementById('content');
+  const openRaw = document.getElementById('openRaw');
+  const closeBtn= document.getElementById('closeBtn');
+
+  function showModal(){ overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false'); }
+  function hideModal(){ overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true'); history.replaceState(null,'',location.pathname); }
+
+  async function openPoem(slug){
+    try{
+      const {title,color,cover,body,url} = await fetchPoem(slug);
+      titleEl.textContent = title || slug;
+      contEl.innerHTML = mdLiteToHtml(body.trim());
+      hero.style.background = color || '#222';
+      if (cover){
+        coverEl.src = toAbs(cover);
+        coverEl.style.display = '';
+      } else {
+        coverEl.style.display = 'none';
+      }
+      openRaw.href = url.replace('/Takumi',''); // link al .md publicado
+      showModal();
+      history.replaceState(null,'',`#${encodeURIComponent(slug)}`);
+    }catch(e){
+      console.error(e);
+      alert('No se pudo abrir el poema.');
+    }
+  }
+
+  closeBtn.addEventListener('click', hideModal);
+  overlay.addEventListener('click', (e)=>{ if(e.target===overlay) hideModal(); });
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
+
+  // Cargar tarjetas desde index.json (si no existe, lista quedará vacía)
   try{
     const r = await fetch(`${BASE}/index.json?ts=${Date.now()}`, {cache:'no-store'});
-    if(!r.ok) throw new Error('No se pudo leer index.json');
-    const data = await r.json();
-
-    // Normaliza campos esperados
+    let data = [];
+    if (r.ok) data = await r.json();
     const items = (Array.isArray(data)?data:[]).map(x=>{
       const slug  = (x.slug || x.title || '').replace(/\.md$/i,'');
-      const title = x.title || slug;
-      const color = x.color || null;
-      const cover = x.cover || null;
-      return {title, slug, color, cover};
+      return { title: x.title || slug, slug, color: x.color || null, cover: x.cover || null };
     });
-
     grid.innerHTML = '';
     items.forEach(it=> grid.appendChild(card(it)));
     count.textContent = `📜 ${items.length} poema${items.length!==1?'s':''}`;
   }catch(e){
-    console.error(e);
-    err.textContent = 'Error al cargar los poemas.';
-    count.textContent = '';
+    console.error(e); err.textContent = 'Error al cargar el índice.'; count.textContent='';
+  }
+
+  // Si hay hash (#slug), abre directamente
+  if (location.hash.length > 1){
+    const slug = decodeURIComponent(location.hash.slice(1));
+    openPoem(slug);
   }
 })();
 </script>
