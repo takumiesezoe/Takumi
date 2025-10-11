@@ -129,20 +129,29 @@
   }
 
   // Conversión de Markdown (con soporte Obsidian)
-  function preprocessObsidian(md) {
-    let txt = md;
-    txt = txt.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, file, alt) => {
-      const src = toAbs(file.trim());
-      return `![${alt || file}](${src})`;
-    });
-    txt = txt.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, file, alias) => alias);
-    txt = txt.replace(/\[\[([^\]]+)\]\]/g, (_, file) => file);
-    txt = txt.replace(/^>\s*\[\!([^\]]+)\]\s*(.*)$/gmi, (m, kind, title) => {
-      const label = title || kind;
-      return `> **${label}**`;
-    });
-    return txt;
-  }
+function preprocessObsidian(md) {
+  let txt = md;
+
+  // ![[archivo.jpg]]  o  ![[carpeta/archivo.jpg|alt]]
+  txt = txt.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, file, alt) => {
+    const f = file.trim();
+    // si no hay subcarpeta, apuntamos a images/
+    const rel = f.includes('/') ? f : `images/${f}`;
+    return `![${alt || f}](${rel})`;
+  });
+
+  // [[nota|alias]] -> alias
+  txt = txt.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, file, alias) => alias);
+  txt = txt.replace(/\[\[([^\]]+)\]\]/g, (_, file) => file);
+
+  // callouts
+  txt = txt.replace(/^>\s*\[\!([^\]]+)\]\s*(.*)$/gmi, (m, kind, title) => {
+    const label = title || kind;
+    return `> **${label}**`;
+  });
+
+  return txt;
+}
 
   function fixRelativeImageSrcs(html) {
     const container = document.createElement('div');
