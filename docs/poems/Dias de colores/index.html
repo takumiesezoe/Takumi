@@ -21,15 +21,42 @@
   .count{opacity:.75;margin:.25rem 0 1rem}
 
   /* Modal */
-  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-start;justify-content:center;padding:3vh 2rem;z-index:50}
-  .overlay.show{display:flex}
-  .sheet{width:100%;max-width:820px;border-radius:18px;overflow:hidden;background:rgba(20,20,20,.9);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 80px rgba(0,0,0,.5)}
-  .hero{min-height:130px;background:#222}
-  .cover{width:100%;max-height:420px;object-fit:cover;display:block}
-  .inner{padding:1.25rem 1.4rem}
-  .sheet h2{margin:.1rem 0 1rem;font-size:1.6rem}
-  .md{white-space:pre-wrap;line-height:1.7}
-  .close{position:absolute;top:12px;right:16px;background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer}
+ .overlay{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.65);
+  display:none;
+  align-items:flex-start;         /* arriba */
+  justify-content:center;
+  padding:3vh 2rem;
+  z-index:50;
+  overflow:auto;                  /* <— añade */
+}
+ .overlay.show{display:flex}  .sheet{width:100%;max-width:820px;border-radius:18px;overflow:hidden;background:rgba(20,20,20,.9);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.08);box-shadow:0 20px 80px rgba(0,0,0,.5)}
+ .hero{ min-height:130px; background:#222; flex:0 0 auto; }
+ .cover{
+  width:100%; max-height:45vh; object-fit:cover; display:block; flex:0 0 auto;
+}
+ .inner{
+  padding:1.25rem 1.4rem;
+  overflow:auto;                  /* <— añade */
+  flex:1 1 auto;                  /* <— ocupa el resto */
+}
+  .sheet{
+  width:100%; max-width:820px;
+  border-radius:18px; overflow:hidden;
+  background:rgba(20,20,20,.9);
+  backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 20px 80px rgba(0,0,0,.5);
+  max-height:92vh;                /* <— añade */
+  display:flex; flex-direction:column; /* <— para que inner crezca */
+}
+  .md{ white-space:pre-wrap; line-height:1.7; }
+  .close{
+  position:absolute; top:12px; right:16px;
+  background:transparent; border:none; color:#fff;
+  font-size:28px; cursor:pointer;
+}
   .back{color:#b19cd9;text-decoration:none;margin-right:.5rem}
 </style>
 
@@ -234,6 +261,20 @@ function preprocessObsidian(md) {
     openPoem(slug);
   }
 })();
+
+  const body = document.body;
+function showModal(){ 
+  overlay.classList.add('show'); 
+  overlay.setAttribute('aria-hidden','false'); 
+  body.style.overflow = 'hidden';           // <—
+}
+function hideModal(){ 
+  overlay.classList.remove('show'); 
+  overlay.setAttribute('aria-hidden','true'); 
+  body.style.overflow = '';                 // <—
+  history.replaceState(null,'',location.pathname); 
+}
+  
 </script>
 </body>
 </html>
