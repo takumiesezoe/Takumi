@@ -32,6 +32,9 @@
   .close{position:absolute;top:12px;right:16px;background:transparent;border:none;color:#fff;font-size:28px;cursor:pointer}
   .back{color:#b19cd9;text-decoration:none;margin-right:.5rem}
 </style>
+
+<!-- Parser Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <h1>🎨 Días de colores</h1>
@@ -62,14 +65,14 @@
   const err  = document.getElementById('error');
   const count= document.getElementById('count');
 
-  // Helpers
+  // Helpers globales
   const encPath = (p)=> p.split('/').map(encodeURIComponent).join('/');
   const toAbs   = (p)=> p.startsWith('http') ? p : (p.startsWith('/Takumi') ? p : `${BASE}/${encPath(p)}`);
 
   function card({title, slug, color, cover}) {
     const a = document.createElement('a');
     a.className = 'card';
-    a.href = `#${encodeURIComponent(slug)}`;         // no cambiamos de página
+    a.href = `#${encodeURIComponent(slug)}`;
     a.dataset.slug = slug;
 
     if (cover) {
@@ -107,7 +110,6 @@
     if (!r.ok) throw new Error('404');
     const raw = await r.text();
 
-    // Front-matter simple
     let title = slug, color = null, cover = null, body = raw;
     const m = raw.match(/^---\s*([\s\S]*?)\s*---\s*/);
     if (m) {
@@ -126,17 +128,42 @@
     return {title, color, cover, body, url};
   }
 
-  function mdLiteToHtml(txt){
-    // Conversión mínima para que se vea decente (sin librerías):
-    let h = txt
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');   // escapar
-    h = h.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
-    h = h.replace(/\*([^*]+)\*/g,'<em>$1</em>');
-    h = h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,(m,alt,src)=>`<img alt="${alt}" src="${src}" style="max-width:100%;border-radius:12px;margin:.5rem 0">`);
-    h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
-    // párrafos
-    h = h.replace(/\r?\n\r?\n/g,'\n</p>\n<p>');
-    return `<p>${h}</p>`;
+  // Conversión de Markdown (con soporte Obsidian)
+  function preprocessObsidian(md) {
+    let txt = md;
+    txt = txt.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, file, alt) => {
+      const src = toAbs(file.trim());
+      return `![${alt || file}](${src})`;
+    });
+    txt = txt.replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, (_, file, alias) => alias);
+    txt = txt.replace(/\[\[([^\]]+)\]\]/g, (_, file) => file);
+    txt = txt.replace(/^>\s*\[\!([^\]]+)\]\s*(.*)$/gmi, (m, kind, title) => {
+      const label = title || kind;
+      return `> **${label}**`;
+    });
+    return txt;
+  }
+
+  function fixRelativeImageSrcs(html) {
+    const container = document.createElement('div');
+    container.innerHTML = html;
+    container.querySelectorAll('img').forEach(img => {
+      const src = img.getAttribute('src') || '';
+      if (!/^https?:\/\//i.test(src) && !src.startsWith('/Takumi')) {
+        img.src = toAbs(src);
+      }
+      img.style.maxWidth = '100%';
+      img.style.borderRadius = '12px';
+      img.style.margin = '.5rem 0';
+    });
+    return container.innerHTML;
+  }
+
+  function renderMarkdown(md) {
+    marked.setOptions({ breaks: true });
+    const pre = preprocessObsidian(md);
+    const html = marked.parse(pre);
+    return fixRelativeImageSrcs(html);
   }
 
   // Modal
@@ -155,7 +182,7 @@
     try{
       const {title,color,cover,body,url} = await fetchPoem(slug);
       titleEl.textContent = title || slug;
-      contEl.innerHTML = mdLiteToHtml(body.trim());
+      contEl.innerHTML = renderMarkdown(body.trim());
       hero.style.background = color || '#222';
       if (cover){
         coverEl.src = toAbs(cover);
@@ -163,7 +190,7 @@
       } else {
         coverEl.style.display = 'none';
       }
-      openRaw.href = url.replace('/Takumi',''); // link al .md publicado
+      openRaw.href = url.replace('/Takumi','');
       showModal();
       history.replaceState(null,'',`#${encodeURIComponent(slug)}`);
     }catch(e){
@@ -176,7 +203,7 @@
   overlay.addEventListener('click', (e)=>{ if(e.target===overlay) hideModal(); });
   window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') hideModal(); });
 
-  // Cargar tarjetas desde index.json (si no existe, lista quedará vacía)
+  // Cargar tarjetas desde index.json
   try{
     const r = await fetch(`${BASE}/index.json?ts=${Date.now()}`, {cache:'no-store'});
     let data = [];
@@ -192,7 +219,7 @@
     console.error(e); err.textContent = 'Error al cargar el índice.'; count.textContent='';
   }
 
-  // Si hay hash (#slug), abre directamente
+  // Abrir directamente si hay hash
   if (location.hash.length > 1){
     const slug = decodeURIComponent(location.hash.slice(1));
     openPoem(slug);
