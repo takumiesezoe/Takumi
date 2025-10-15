@@ -2,6 +2,9 @@
 title: Canciones, poemas y escritos
 dg-publish: true
 dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
+[[Notice me|Notice me]]
+[[The buzzing|The buzzing]]
+[[Cuprepezones|Cubrepezones]]
 [[Brazos|Brazos]]
 [[Amantes|Amantes]] 
 [[Pereza|Pereza]]
