@@ -1,89 +1,93 @@
----
-title: Canciones, poemas y escritos
-dg-publish: true
-dg-permalink: /Escritos/Canciones-poemas-escritos/Canciones-poemas-escritos/
-[[Notice me|Notice me]]
-[[The buzzing|The buzzing]]
-[[Cuprepezones|Cubrepezones]]
-[[Brazos|Brazos]]
-[[Amantes|Amantes]] 
-[[Pereza|Pereza]]
-[[I want it to hurt|I want it to hurt]]
-[[Me pica|Me pica]]
-[[Amigos|Amigos]]  
-[[A nadie, nunca|A nadie, nunca]]  
-[[Miradas|Miradas]]  
-[[Listas|Listas]]  
-[[Siempre|Siempre]]  
-[[Notificaciones|Notificaciones]]  
-[[Inconsciente|Inconsciente]]  
-[[Escribo|Escribo]]  
-[[Falta|Falta]]  
-[[Hospital|Hospital]]  
-[[Why is it like this|Why is it like this]]  
-[[Creencias|Creencias]]  
-[[Sound|Sound]]  
-[[Kintsugi|Kintsugi]]  
-[[Ganas|Ganas]]  
-[[Este chico|Este chico]]  
-[[Magnifico|Magnifico]]  
-[[No estoy a la altura|No estoy a la altura]]  
-[[Scars|Scars]]  
-[[Body|Body]]  
-[[My big dream|My big dream]]  
-[[Delirios en la ducha|Delirios en la ducha]]  
-[[Pastis|Pastis]]  
-[[Basura|Basura]]  
-[[Escenarios|Escenarios]]
-[[Eli x2|Eli x2]]
-[[Delgado|Delgado]]
-[[Porro|Porro]]
-[[Me ha dado miedo|Me ha dado miedo]]  
-[[Repito|Repito]]  
-[[No es justo|No es justo]]  
-[[In the neck|In the neck]]  
-[[Indicaciones|Indicaciones]]  
-[[Alcohol|Alcohol]]  
-[[Sombras|Sombras]]  
-[[Aphantasia|Aphantasia]]  
-[[¿Para que|¿Para que]]  
-[[Duele|Duele]]  
-[[Envejecer|Envejecer]]  
-[[Same thing|Same thing]]  
-[[Abuelo|Abuelo]]  
-[[No entiendo|No entiendo]]  
-[[Terapeuta virtual|Terapeuta virtual]]  
-[[Perdido|Perdido]]  
-[[Alone|Alone]]  
-[[El lastimado|El lastimado]]  
-[[Mi cerebro|Mi cerebro]]  
-[[Afilado|Afilado]]  
-[[Me volvieron a dejar|Me volvieron a dejar]]  
-[[Random vent|Random vent]]  
-[[Llanto|Llanto]]  
-[[Vacio|Vacio]]  
-[[SHP.com|SHP.com]]  
-[[Casi lo hago|Casi lo hago]]  
-[[Cronico|Cronico]]  
-[[En que piensas|En que piensas]]  
-[[Todo|Todo]]  
-[[Disposable|Disposable]]  
-[[Calladito|Calladito]]  
-[[Todo mal|Todo mal]]  
-[[Borroso|Borroso]]  
-[[Waking up or falling down|Waking up or falling down]]  
-[[Escapulas|Escapulas]]  
-[[En la sien|En la sien]]  
-[[3 en ralla|3 en ralla]]  
-[[Tik tok curse|Tik tok curse]]  
-[[Creo que tengo tlp|Creo que tengo tlp]]  
-[[Mala hija|Mala hija]]  
-[[Padres|Padres]]  
-[[Las veces que he despertado|Las veces que he despertado]]  
-[[Slit|Slit]]  
-[[Irrealidad|Irrealidad]]  
-[[Redentor en ruinas|Redentor en ruinas]]  
-[[Mi deseo|Mi deseo]]  
-[[TEA|TEA]]  
-[[Seen|Seen]]  
-[[Sex|Sex]]  
+# Poemas
+
+- [3 en ralla](3 en ralla.md)
+- [A nadie, nunca](A nadie, nunca.md)
+- [Abuelo](Abuelo.md)
+- [Afilado](Afilado.md)
+- [Alcohol](Alcohol.md)
+- [Alone](Alone.md)
+- [Amantes](Amantes.md)
+- [Amigos](Amigos.md)
+- [Aphantasia](Aphantasia.md)
+- [Basura](Basura.md)
+- [Body](Body.md)
+- [Borroso](Borroso.md)
+- [Brazos](Brazos.md)
+- [Calladito](Calladito.md)
+- [Casi lo hago](Casi lo hago.md)
+- [Creencias](Creencias.md)
+- [Creo que tengo tlp](Creo que tengo tlp.md)
+- [Cronico](Cronico.md)
+- [Delgado](Delgado.md)
+- [Delirios en la ducha](Delirios en la ducha.md)
+- [Disposable](Disposable.md)
+- [Duele](Duele.md)
+- [El lastimado](El lastimado.md)
+- [Eli x2](Eli x2.md)
+- [En la sien](En la sien.md)
+- [En que piensas](En que piensas.md)
+- [Envejecer](Envejecer.md)
+- [Escapulas](Escapulas.md)
+- [Escenarios](Escenarios.md)
+- [Escribo](Escribo.md)
+- [Este chico](Este chico.md)
+- [Falta](Falta.md)
+- [Ganas](Ganas.md)
+- [Hospital](Hospital.md)
+- [I want it to hurt](I want it to hurt.md)
+- [In the neck](In the neck.md)
+- [Inconsciente](Inconsciente.md)
+- [Indicaciones](Indicaciones.md)
+- [Irrealidad](Irrealidad.md)
+- [Kintsugi](Kintsugi.md)
+- [Las veces que he despertado](Las veces que he despertado.md)
+- [Listas](Listas.md)
+- [Llanto](Llanto.md)
+- [Magnifico](Magnifico.md)
+- [Mala hija](Mala hija.md)
+- [Me ha dado miedo](Me ha dado miedo.md)
+- [Me pica](Me pica.md)
+- [Me volvieron a dejar](Me volvieron a dejar.md)
+- [Mi cerebro](Mi cerebro.md)
+- [Mi deseo](Mi deseo.md)
+- [Miradas](Miradas.md)
+- [My big dream](My big dream.md)
+- [No entiendo](No entiendo.md)
+- [No es justo](No es justo.md)
+- [No estoy a la altura](No estoy a la altura.md)
+- [Notificaciones](Notificaciones.md)
+- [Padres](Padres.md)
+- [Pastis](Pastis.md)
+- [Perdido](Perdido.md)
+- [Pereza](Pereza.md)
+- [Porro](Porro.md)
+- [Random vent](Random vent.md)
+- [Recuerdos](Recuerdos.md)
+- [Redentor en ruinas](Redentor en ruinas.md)
+- [Repito](Repito.md)
+- [SHP.com](SHP.com.md)
+- [Same thing](Same thing.md)
+- [Scars](Scars.md)
+- [Seen](Seen.md)
+- [Sex](Sex.md)
+- [Siempre](Siempre.md)
+- [Slit](Slit.md)
+- [Sombras](Sombras.md)
+- [Sound](Sound.md)
+- [TEA](TEA.md)
+- [Terapeuta virtual](Terapeuta virtual.md)
+- [Tik tok curse](Tik tok curse.md)
+- [Todo mal](Todo mal.md)
+- [Todo](Todo.md)
+- [Vacio](Vacio.md)
+- [Waking up or falling down](Waking up or falling down.md)
+- [Why is it like this](Why is it like this.md)
+- [index.backup.20251015-1929](index.backup.20251015-1929.md)
+- [¿Para que](¿Para que.md)
+
+## Días de colores
+- [Atardecer roto 🍑](Dias de colores/Atardecer roto 🍑.md)
+- [Azul espera-nza✈️](Dias de colores/Azul espera-nza✈️.md)
+- [Blanco de nuevos comienzos 🤍](Dias de colores/Blanco de nuevos comienzos 🤍.md)
+- [Naranja en espera 🟧](Dias de colores/Naranja en espera 🟧.md)
+- [Verde melancólico 🌱](Dias de colores/Verde melancólico 🌱.md)
