@@ -1,5 +1,10 @@
 # Poemas
 
+<style>
+ .poems-ordered ul { columns:1 !important; -webkit-columns:1 !important; -moz-columns:1 !important; display:block !important;}
+ .poems-ordered li { break-inside: avoid;}
+</style>
+
 - [Notice me](Notice me.md)
 - [The buzzing](The buzzing.md)
 - [Cubrepezones](Cubrepezones.md)
@@ -94,3 +99,5 @@
 - [Blanco de nuevos comienzos 🤍](Dias de colores/Blanco de nuevos comienzos 🤍.md)
 - [Naranja en espera 🟧](Dias de colores/Naranja en espera 🟧.md)
 - [Verde melancólico 🌱](Dias de colores/Verde melancólico 🌱.md)
+
+</div>
