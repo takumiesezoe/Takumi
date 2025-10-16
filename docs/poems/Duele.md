@@ -1,3 +1,8 @@
+---
+layout: default
+title: Duele
+---
+
 
 Es egoísta…  
 pero duele.

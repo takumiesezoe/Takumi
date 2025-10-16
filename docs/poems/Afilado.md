@@ -1,3 +1,8 @@
+---
+layout: default
+title: Afilado
+---
+
 
 quiero tener una cuchilla bajo mi piel
 

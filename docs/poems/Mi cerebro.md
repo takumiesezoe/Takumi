@@ -1,3 +1,8 @@
+---
+layout: default
+title: Mi cerebro
+---
+
 
 Mi cerebro está roto  
 No percibe bien las cosas,  

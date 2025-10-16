@@ -1,3 +1,8 @@
+---
+layout: default
+title: Random vent
+---
+
 
 
 Aquí el tiempo se distorsiona  

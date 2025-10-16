@@ -1,3 +1,8 @@
+---
+layout: default
+title: Todo mal
+---
+
 
 
 Fecha de creación: 2025-06-16T22:04

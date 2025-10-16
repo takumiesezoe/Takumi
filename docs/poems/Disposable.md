@@ -1,3 +1,8 @@
+---
+layout: default
+title: Disposable
+---
+
 
 I am disposable  
 I could be trown on the bin  

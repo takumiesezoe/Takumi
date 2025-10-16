@@ -1,3 +1,8 @@
+---
+layout: default
+title: Amigos
+---
+
 
 
 Olvido que tengo amigos con quien hablar

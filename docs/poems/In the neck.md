@@ -1,3 +1,8 @@
+---
+layout: default
+title: In the neck
+---
+
 
 In the neck
 

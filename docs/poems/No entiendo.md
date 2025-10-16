@@ -1,3 +1,8 @@
+---
+layout: default
+title: No entiendo
+---
+
 
 ¿Porque se enfadan conmigo?
 

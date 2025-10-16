@@ -1,3 +1,8 @@
+---
+layout: default
+title: Cubrepezones
+---
+
 Me compro pezoneras
 para cubrir algo natural,
 como si a alguien le importara

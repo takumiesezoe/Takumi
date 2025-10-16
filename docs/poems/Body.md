@@ -1,3 +1,8 @@
+---
+layout: default
+title: Body
+---
+
 
 
 My flesh isn't mine

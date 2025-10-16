@@ -1,3 +1,8 @@
+---
+layout: default
+title: SHP.com
+---
+
 
 
 I take refuge in the images,  

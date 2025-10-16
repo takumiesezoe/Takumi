@@ -1,3 +1,8 @@
+---
+layout: default
+title: Indicaciones
+---
+
 
 No sé qué hacer,  
 me pierdo en mi propio silencio.  

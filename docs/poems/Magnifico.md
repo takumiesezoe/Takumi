@@ -1,3 +1,8 @@
+---
+layout: default
+title: Magnifico
+---
+
  
 
 talvez magnifico la gravedad de las cosas

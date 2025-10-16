@@ -1,3 +1,8 @@
+---
+layout: default
+title: Redentor en ruinas
+---
+
 
 
 Quiero salvar el mundo de su propia condena,

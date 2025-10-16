@@ -1,3 +1,8 @@
+---
+layout: default
+title: Creencias
+---
+
 
 
 ¿Se supone que me lo tengo que creer ?

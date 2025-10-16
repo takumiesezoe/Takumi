@@ -1,3 +1,8 @@
+---
+layout: default
+title: Borroso
+---
+
 
 My memories are blurry,  
 I don't know what went wrong.  

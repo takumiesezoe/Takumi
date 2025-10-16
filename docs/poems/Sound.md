@@ -1,3 +1,8 @@
+---
+layout: default
+title: Sound
+---
+
 
 I get dressed in sounds
 

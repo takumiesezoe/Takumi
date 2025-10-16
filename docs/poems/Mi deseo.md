@@ -1,3 +1,8 @@
+---
+layout: default
+title: Mi deseo
+---
+
 
 
 Mi deseo es huir, sin rumbo ni voz,perderme en un bosque, sin tiempo, sin sol.Dejar que los días pasen sin red,sin pantallas, sin ruido, sin nada en mi piel.  

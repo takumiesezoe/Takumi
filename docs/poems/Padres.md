@@ -1,3 +1,8 @@
+---
+layout: default
+title: Padres
+---
+
 
 
 No me dejan hacer nada,Estoy apresionadaNo me dejan ser feliz a mi manera ,no es asiNo me dejan hacer cosas que me haran sonreir, no es asiLo hacemos por tu bien ,no te hagas daño , no lo hago  

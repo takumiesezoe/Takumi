@@ -1,3 +1,8 @@
+---
+layout: default
+title: En que piensas
+---
+
 
 
 Me preguntan: ¿en qué piensas?  

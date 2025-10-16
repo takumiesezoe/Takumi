@@ -1,3 +1,8 @@
+---
+layout: default
+title: Tik tok curse
+---
+
 
 Everything is pointing at me  
 Stop staring, let me be  

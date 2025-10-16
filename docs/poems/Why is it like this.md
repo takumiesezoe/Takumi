@@ -1,3 +1,8 @@
+---
+layout: default
+title: Why is it like this
+---
+
 
 
 

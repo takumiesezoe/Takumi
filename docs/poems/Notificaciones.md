@@ -1,3 +1,8 @@
+---
+layout: default
+title: Notificaciones
+---
+
 
 espero las notificaciones en mi celular 
 y no llega nada

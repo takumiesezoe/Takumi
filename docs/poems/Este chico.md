@@ -1,3 +1,8 @@
+---
+layout: default
+title: Este chico
+---
+
 
 
 Te enfadaras conmigo si te digo la verdad

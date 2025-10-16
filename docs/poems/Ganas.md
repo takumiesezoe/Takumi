@@ -1,3 +1,8 @@
+---
+layout: default
+title: Ganas
+---
+
 
 
 No tengo ganas de ver pelis,

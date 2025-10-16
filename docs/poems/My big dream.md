@@ -1,3 +1,8 @@
+---
+layout: default
+title: My big dream
+---
+
 
 
 My dream is to be rich and be succesful I know they don't have both to complementI just wanna help others and probably myselfEven thought I probably hate myself  

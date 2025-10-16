@@ -1,3 +1,8 @@
+---
+layout: default
+title: Escapulas
+---
+
  
 
 Hace tiempo quiero estar vacío por dentro

@@ -1,3 +1,8 @@
+---
+layout: default
+title: Aphantasia
+---
+
  
 
 In my mind there are no pictures,

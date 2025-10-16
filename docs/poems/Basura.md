@@ -1,3 +1,8 @@
+---
+layout: default
+title: Basura
+---
+
 
 
 Soy inutil ,soy basura, no sirvo para nada

@@ -1,3 +1,8 @@
+---
+layout: default
+title: Cronico
+---
+
 
 Mi padre cree que soy crónico.  
 No me comunico con ellos.  

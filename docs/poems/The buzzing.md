@@ -1,3 +1,8 @@
+---
+layout: default
+title: The buzzing
+---
+
 There is this buzzing sound
 that follows me everywhere.
 It appears from time to time,

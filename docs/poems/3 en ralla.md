@@ -1,3 +1,8 @@
+---
+layout: default
+title: 3 en ralla
+---
+
 
 
 Jugar un tres en raya en mi piel  

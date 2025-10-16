@@ -1,3 +1,8 @@
+---
+layout: default
+title: Scars
+---
+
 
 My scars are fading like the falling leaves in autumn
 

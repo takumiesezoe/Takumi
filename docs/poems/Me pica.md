@@ -1,3 +1,8 @@
+---
+layout: default
+title: Me pica
+---
+
 
 
 Me pica, me pica tanto que casi escuece.

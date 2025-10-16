@@ -1,3 +1,8 @@
+---
+layout: default
+title: Kintsugi
+---
+
 
 Quiero tener cicatrices  
 Porque veo belleza en lo roto y reconstruido,

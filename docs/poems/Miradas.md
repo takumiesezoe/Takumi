@@ -1,3 +1,8 @@
+---
+layout: default
+title: Miradas
+---
+
 
 
 Todos me miran y no sé porqué 

@@ -1,3 +1,8 @@
+---
+layout: default
+title: Same thing
+---
+
 
 There is a lack of purpose in my life
 

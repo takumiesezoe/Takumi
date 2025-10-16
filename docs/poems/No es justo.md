@@ -1,3 +1,8 @@
+---
+layout: default
+title: No es justo
+---
+
 
 No es justo para mi madre,  
 que lo haga todo sola;  

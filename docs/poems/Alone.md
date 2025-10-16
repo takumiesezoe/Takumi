@@ -1,3 +1,8 @@
+---
+layout: default
+title: Alone
+---
+
 
 
 Alone, just me and my selfishness  

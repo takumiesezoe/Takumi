@@ -1,3 +1,8 @@
+---
+layout: default
+title: El lastimado
+---
+
 
 Recuerdos de una infancia frente al televisor,  
 viendo cómo los dibujos de heridos captaban su atención.  

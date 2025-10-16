@@ -1,3 +1,8 @@
+---
+layout: default
+title: Hospital
+---
+
 
 
 Quiero ir al hospital,

@@ -1,3 +1,8 @@
+---
+layout: default
+title: Escribo
+---
+
 
 
 Escribo , sin motivo alguno. 
