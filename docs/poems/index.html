@@ -1,11 +1,24 @@
-✅ Generado docs/poems/index.html (estático).
-set='utf-8'>
+<!doctype html>
+<html lang='es'>
+<head>
+<meta charset='utf-8'>
 <meta name='viewport' content='width=device-width,initial-scale=1'>
+<meta http-equiv='Cache-Control' content='no-store, no-cache, must-revalidate, max-age=0'>
+<meta http-equiv='Pragma' content='no-cache'>
+<meta http-equiv='Expires' content='0'>
+<!-- build:2025-10-18T21:18:37 -->
 <title>Poemas</title>
-<style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;max-width:820px;margin:auto}h1{margin:0 0 16px 0} ul{columns:1;-webkit-columns:1;-moz-columns:1;list-style:none;padding-left:0} li{break-inside:avoid;padding:4px 0} a{text-decoration:none} a:hover{text-decoration:underline}</style>
-<!-- build:2025-10-18T21:09:01 -->
-</head><body>
-<h1>Poemas <small>(<span id="poem-count">…</span>)</small></h1>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;max-width:820px;margin:auto}
+h1{margin:0 0 16px 0}
+ul{columns:1;-webkit-columns:1;-moz-columns:1;list-style:none;padding-left:0}
+li{break-inside:avoid;padding:4px 0}
+a{text-decoration:none} a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<h1>Poemas <small>(<span id='poem-count'>…</span>)</small></h1>
+<div class='poems-ordered'>
 <ul>
   <li><a href='notice-me.md'>Notice me</a></li>
   <li><a href='the-buzzing.md'>The buzzing</a></li>
@@ -94,6 +107,7 @@ set='utf-8'>
   <li><a href='Sex.md'>Sex</a></li>
   <li><a href='Recuerdos.md'>Recuerdos</a></li>
 </ul>
+</div>
 <h2>Días de colores</h2>
 <ul>
   <li><a href='Dias%20de%20colores/Atardecer%20roto%20%F0%9F%8D%91.md'>Atardecer roto 🍑</a></li>
@@ -102,15 +116,13 @@ set='utf-8'>
   <li><a href='Dias%20de%20colores/Naranja%20en%20espera%20%F0%9F%9F%A7.md'>Naranja en espera 🟧</a></li>
   <li><a href='Dias%20de%20colores/Verde%20melanc%C3%B3lico%20%F0%9F%8C%B1.md'>Verde melancólico 🌱</a></li>
 </ul>
-
 <script>
 (function(){
   try {
     var count = document.querySelectorAll('.poems-ordered li').length;
     var el = document.getElementById('poem-count');
     if (el) el.textContent = count;
-  } catch (e) { /* silencioso */ }
+  } catch (e) {}
 })();
 </script>
-
 </body></html>
