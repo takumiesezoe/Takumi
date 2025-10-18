@@ -17,6 +17,20 @@ a{text-decoration:none} a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
+  <script>
+(async () => {
+  try {
+    if ('serviceWorker' in navigator) {
+      const regs = await navigator.serviceWorker.getRegistrations();
+      for (const r of regs) { try { await r.unregister(); } catch(e){} }
+    }
+    if (window.caches && caches.keys) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+    }
+  } catch(e) {}
+})();
+</script>
 <h1>Poemas <small>(<span id='poem-count'>…</span>)</small></h1>
 <div class='poems-ordered'>
 <ul>
