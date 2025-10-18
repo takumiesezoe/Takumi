@@ -8,6 +8,9 @@ layout: default
 <style>.poems-ordered ul{columns:1 !important;-webkit-columns:1 !important;-moz-columns:1 !important;display:block!important}.poems-ordered li{break-inside:avoid}</style>
 <div class="poems-ordered">
 
+- [Notice me](notice-me.md)
+- [The buzzing](the-buzzing.md)
+- [Cubrepezones](cubrepezones.md)
 
 </div>
 
