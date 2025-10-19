@@ -83,20 +83,7 @@
   } catch(e) {}
 })();
 </script>
-  <script>
-(async () => {
-  try {
-    if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      for (const r of regs) { try { await r.unregister(); } catch(e){} }
-    }
-    if (window.caches && caches.keys) {
-      const keys = await caches.keys();
-      await Promise.all(keys.map(k => caches.delete(k)));
-    }
-  } catch(e) {}
-})();
-</script>
+  
   <h1>🌙 Takumi</h1>
 
   <section id="poems">
@@ -111,13 +98,10 @@
     <div id="collections"><div>Cargando colecciones...</div></div>
   </section>
 
+  
   <script>
   document.addEventListener("DOMContentLoaded", async () => {
     const BASE = "/Takumi";
-    const RAW_BASE =
-      "https://raw.githubusercontent.com/takumiesezoe/Takumi/main/docs";
-    console.log("Takumi index boot (orden real desde index.md RAW + contador)");
-
     const ul = document.getElementById("poem-list");
     const err = document.getElementById("poem-error");
     const countEl = document.getElementById("poem-count");
@@ -129,66 +113,28 @@
       return r.json();
     }
 
-    async function safeText(url) {
+    async function getPoemsFromIndexHTML() {
+      const url = `${BASE}/poems/index.html`;
       const r = await fetch(url + `?ts=${Date.now()}`, { cache: "no-store" });
       if (!r.ok) throw new Error(`${r.status} ${r.statusText} (${url})`);
-      return r.text();
-    }
-
-    async function getOrderFromMarkdown() {
-      const md = await safeText(`${RAW_BASE}/poems/index.md`);
-      const order = [];
-      const regex = /\[\[(?:([^\]|]+)\|)?([^\]]+)\]\]/g;
-      let m;
-      while ((m = regex.exec(md))) {
-        const slug = (m[2] || m[1] || "").trim();
-        if (slug && !order.includes(slug)) order.push(slug);
-      }
-      console.log("Orden desde index.md (RAW):", order);
-      return order;
-    }
-
-    function normalizePoems(data) {
-      return (Array.isArray(data) ? data : [])
-        .map((it) => {
-          if (typeof it === "string") {
-            const slug = it.replace(/^.*\//, "").replace(/\.md$/i, "");
-            return { title: slug, slug };
-          } else if (it && typeof it === "object") {
-            const slug = (it.slug || it.name || it.path || "")
-              .replace(/^.*\//, "")
-              .replace(/\.md$/i, "");
-            return { title: it.title || slug, slug };
-          }
-          return null;
-        })
-        .filter(Boolean);
+      const txt = await r.text();
+      const doc = new DOMParser().parseFromString(txt, "text/html");
+      const links = Array.from(doc.querySelectorAll(".poems-ordered li a"));
+      return links.map(a => {
+        const title = (a.textContent || "").trim();
+        const href = a.getAttribute("href") || "";
+        const slug = href.replace(/^.*\//, "").replace(/\.md$/i, "");
+        return { title, slug };
+      });
     }
 
     try {
-      const [order, json] = await Promise.all([
-        getOrderFromMarkdown(),
-        safeJSON(`${BASE}/poems/index.json`),
-      ]);
-
-      const poems = normalizePoems(json);
-      const bySlug = new Map(poems.map((p) => [p.slug, p]));
-
-      const ordered = [];
-      order.forEach((slug) => {
-        const p = bySlug.get(slug);
-        if (p) {
-          ordered.push(p);
-          bySlug.delete(slug);
-        }
-      });
-      for (const p of bySlug.values()) ordered.push(p);
-
-      // Actualiza contador
-      countEl.textContent = `📜 ${ordered.length} poema${ordered.length !== 1 ? "s" : ""}`;
-
+      const poems = await getPoemsFromIndexHTML();
+      // contador
+      if (countEl) countEl.textContent = `📜 ${poems.length} poema${poems.length !== 1 ? "s" : ""}`;
+      // lista
       ul.innerHTML = "";
-      ordered.forEach((p) => {
+      poems.forEach(p => {
         const li = document.createElement("li");
         const a = document.createElement("a");
         a.textContent = p.title;
@@ -202,6 +148,7 @@
       console.error(e);
     }
 
+    // Colecciones (esto ya funcionaba)
     try {
       const cols = await safeJSON(`${BASE}/collections/index.json`);
       colWrap.innerHTML = "";
@@ -223,11 +170,11 @@
         colWrap.appendChild(card);
       });
     } catch (e) {
-      if (colWrap)
-        colWrap.textContent = `No se pudieron cargar las colecciones: ${e.message}`;
+      if (colWrap) colWrap.textContent = `No se pudieron cargar las colecciones: ${e.message}`;
       console.error(e);
     }
   });
   </script>
+
 </body>
 </html>
