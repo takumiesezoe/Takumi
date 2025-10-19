@@ -1,142 +1,89 @@
-<!doctype html>
-<html lang='es'>
-<head>
-<meta charset='utf-8'>
-<meta name='viewport' content='width=device-width,initial-scale=1'>
-<meta http-equiv='Cache-Control' content='no-store, no-cache, must-revalidate, max-age=0'>
-<meta http-equiv='Pragma' content='no-cache'>
-<meta http-equiv='Expires' content='0'>
-<!-- build:2025-10-18T21:18:37 -->
-<title>Poemas</title>
-<style>
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;max-width:820px;margin:auto}
-h1{margin:0 0 16px 0}
-ul{columns:1;-webkit-columns:1;-moz-columns:1;list-style:none;padding-left:0}
-li{break-inside:avoid;padding:4px 0}
-a{text-decoration:none} a:hover{text-decoration:underline}
-</style>
-</head>
-<body>
-  <script>
-(async () => {
-  try {
-    if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      for (const r of regs) { try { await r.unregister(); } catch(e){} }
-    }
-    if (window.caches && caches.keys) {
-      const keys = await caches.keys();
-      await Promise.all(keys.map(k => caches.delete(k)));
-    }
-  } catch(e) {}
-})();
-</script>
-<h1>Poemas <small>(<span id='poem-count'>…</span>)</small></h1>
-<div class='poems-ordered'>
-<ul>
-  <li><a href='notice-me.md'>Notice me</a></li>
-  <li><a href='the-buzzing.md'>The buzzing</a></li>
-  <li><a href='cubrepezones.md'>Cubrepezones</a></li>
-  <li><a href='Brazos.md'>Brazos</a></li>
-  <li><a href='Amantes.md'>Amantes</a></li>
-  <li><a href='Pereza.md'>Pereza</a></li>
-  <li><a href='I%20want%20it%20to%20hurt.md'>I want it to hurt</a></li>
-  <li><a href='Me%20pica.md'>Me pica</a></li>
-  <li><a href='Amigos.md'>Amigos</a></li>
-  <li><a href='A%20nadie%2C%20nunca.md'>A nadie, nunca</a></li>
-  <li><a href='Miradas.md'>Miradas</a></li>
-  <li><a href='Listas.md'>Listas</a></li>
-  <li><a href='Siempre.md'>Siempre</a></li>
-  <li><a href='Notificaciones.md'>Notificaciones</a></li>
-  <li><a href='Inconsciente.md'>Inconsciente</a></li>
-  <li><a href='Escribo.md'>Escribo</a></li>
-  <li><a href='Falta.md'>Falta</a></li>
-  <li><a href='Hospital.md'>Hospital</a></li>
-  <li><a href='Why%20is%20it%20like%20this.md'>Why is it like this</a></li>
-  <li><a href='Creencias.md'>Creencias</a></li>
-  <li><a href='Sound.md'>Sound</a></li>
-  <li><a href='Kintsugi.md'>Kintsugi</a></li>
-  <li><a href='Ganas.md'>Ganas</a></li>
-  <li><a href='Este%20chico.md'>Este chico</a></li>
-  <li><a href='Magnifico.md'>Magnifico</a></li>
-  <li><a href='No%20estoy%20a%20la%20altura.md'>No estoy a la altura</a></li>
-  <li><a href='Scars.md'>Scars</a></li>
-  <li><a href='Body.md'>Body</a></li>
-  <li><a href='My%20big%20dream.md'>My big dream</a></li>
-  <li><a href='Delirios%20en%20la%20ducha.md'>Delirios en la ducha</a></li>
-  <li><a href='Pastis.md'>Pastis</a></li>
-  <li><a href='Basura.md'>Basura</a></li>
-  <li><a href='Escenarios.md'>Escenarios</a></li>
-  <li><a href='Eli%20x2.md'>Eli x2</a></li>
-  <li><a href='Delgado.md'>Delgado</a></li>
-  <li><a href='Porro.md'>Porro</a></li>
-  <li><a href='Me%20ha%20dado%20miedo.md'>Me ha dado miedo</a></li>
-  <li><a href='Repito.md'>Repito</a></li>
-  <li><a href='No%20es%20justo.md'>No es justo</a></li>
-  <li><a href='In%20the%20neck.md'>In the neck</a></li>
-  <li><a href='Indicaciones.md'>Indicaciones</a></li>
-  <li><a href='Alcohol.md'>Alcohol</a></li>
-  <li><a href='Sombras.md'>Sombras</a></li>
-  <li><a href='Aphantasia.md'>Aphantasia</a></li>
-  <li><a href='%C2%BFPara%20que.md'>¿Para que</a></li>
-  <li><a href='Duele.md'>Duele</a></li>
-  <li><a href='Envejecer.md'>Envejecer</a></li>
-  <li><a href='Same%20thing.md'>Same thing</a></li>
-  <li><a href='Abuelo.md'>Abuelo</a></li>
-  <li><a href='No%20entiendo.md'>No entiendo</a></li>
-  <li><a href='Terapeuta%20virtual.md'>Terapeuta virtual</a></li>
-  <li><a href='Perdido.md'>Perdido</a></li>
-  <li><a href='Alone.md'>Alone</a></li>
-  <li><a href='El%20lastimado.md'>El lastimado</a></li>
-  <li><a href='Mi%20cerebro.md'>Mi cerebro</a></li>
-  <li><a href='Afilado.md'>Afilado</a></li>
-  <li><a href='Me%20volvieron%20a%20dejar.md'>Me volvieron a dejar</a></li>
-  <li><a href='Random%20vent.md'>Random vent</a></li>
-  <li><a href='Llanto.md'>Llanto</a></li>
-  <li><a href='Vacio.md'>Vacio</a></li>
-  <li><a href='SHP.com.md'>SHP.com</a></li>
-  <li><a href='Casi%20lo%20hago.md'>Casi lo hago</a></li>
-  <li><a href='Cronico.md'>Cronico</a></li>
-  <li><a href='En%20que%20piensas.md'>En que piensas</a></li>
-  <li><a href='Todo.md'>Todo</a></li>
-  <li><a href='Disposable.md'>Disposable</a></li>
-  <li><a href='Calladito.md'>Calladito</a></li>
-  <li><a href='Todo%20mal.md'>Todo mal</a></li>
-  <li><a href='Borroso.md'>Borroso</a></li>
-  <li><a href='Waking%20up%20or%20falling%20down.md'>Waking up or falling down</a></li>
-  <li><a href='Escapulas.md'>Escapulas</a></li>
-  <li><a href='En%20la%20sien.md'>En la sien</a></li>
-  <li><a href='3%20en%20ralla.md'>3 en ralla</a></li>
-  <li><a href='Tik%20tok%20curse.md'>Tik tok curse</a></li>
-  <li><a href='Creo%20que%20tengo%20tlp.md'>Creo que tengo tlp</a></li>
-  <li><a href='Mala%20hija.md'>Mala hija</a></li>
-  <li><a href='Padres.md'>Padres</a></li>
-  <li><a href='Las%20veces%20que%20he%20despertado.md'>Las veces que he despertado</a></li>
-  <li><a href='Slit.md'>Slit</a></li>
-  <li><a href='Irrealidad.md'>Irrealidad</a></li>
-  <li><a href='Redentor%20en%20ruinas.md'>Redentor en ruinas</a></li>
-  <li><a href='Mi%20deseo.md'>Mi deseo</a></li>
-  <li><a href='TEA.md'>TEA</a></li>
-  <li><a href='Seen.md'>Seen</a></li>
-  <li><a href='Sex.md'>Sex</a></li>
-  <li><a href='Recuerdos.md'>Recuerdos</a></li>
-</ul>
-</div>
-<h2>Días de colores</h2>
-<ul>
-  <li><a href='Dias%20de%20colores/Atardecer%20roto%20%F0%9F%8D%91.md'>Atardecer roto 🍑</a></li>
-  <li><a href='Dias%20de%20colores/Azul%20espera-nza%E2%9C%88%EF%B8%8F.md'>Azul espera-nza✈️</a></li>
-  <li><a href='Dias%20de%20colores/Blanco%20de%20nuevos%20comienzos%20%F0%9F%A4%8D.md'>Blanco de nuevos comienzos 🤍</a></li>
-  <li><a href='Dias%20de%20colores/Naranja%20en%20espera%20%F0%9F%9F%A7.md'>Naranja en espera 🟧</a></li>
-  <li><a href='Dias%20de%20colores/Verde%20melanc%C3%B3lico%20%F0%9F%8C%B1.md'>Verde melancólico 🌱</a></li>
-</ul>
-<script>
-(function(){
-  try {
-    var count = document.querySelectorAll('.poems-ordered li').length;
-    var el = document.getElementById('poem-count');
-    if (el) el.textContent = count;
-  } catch (e) {}
-})();
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang='es'><head><meta charset='utf-8'><title>Poemas</title>
+<style>body{font-family:sans-serif;background:#0d0d0d;color:#eee;padding:2rem;}a{color:#b19cd9;text-decoration:none;}a:hover{text-decoration:underline;}</style>
+</head><body><h1>Poemas</h1><ul class='poems-ordered'>
+<li><a href='Cubrepezones.md'>Cubrepezones</a></li>
+<li><a href='Brazos.md'>Brazos</a></li>
+<li><a href='Amantes.md'>Amantes</a></li>
+<li><a href='Pereza.md'>Pereza</a></li>
+<li><a href='I%20want%20it%20to%20hurt.md'>I want it to hurt</a></li>
+<li><a href='Me%20pica.md'>Me pica</a></li>
+<li><a href='Amigos.md'>Amigos</a></li>
+<li><a href='A%20nadie%2C%20nunca.md'>A nadie, nunca</a></li>
+<li><a href='Miradas.md'>Miradas</a></li>
+<li><a href='Listas.md'>Listas</a></li>
+<li><a href='Siempre.md'>Siempre</a></li>
+<li><a href='Notificaciones.md'>Notificaciones</a></li>
+<li><a href='Inconsciente.md'>Inconsciente</a></li>
+<li><a href='Escribo.md'>Escribo</a></li>
+<li><a href='Falta.md'>Falta</a></li>
+<li><a href='Hospital.md'>Hospital</a></li>
+<li><a href='Why%20is%20it%20like%20this.md'>Why is it like this</a></li>
+<li><a href='Creencias.md'>Creencias</a></li>
+<li><a href='Sound.md'>Sound</a></li>
+<li><a href='Kintsugi.md'>Kintsugi</a></li>
+<li><a href='Ganas.md'>Ganas</a></li>
+<li><a href='Este%20chico.md'>Este chico</a></li>
+<li><a href='Magnifico.md'>Magnifico</a></li>
+<li><a href='No%20estoy%20a%20la%20altura.md'>No estoy a la altura</a></li>
+<li><a href='Scars.md'>Scars</a></li>
+<li><a href='Body.md'>Body</a></li>
+<li><a href='My%20big%20dream.md'>My big dream</a></li>
+<li><a href='Delirios%20en%20la%20ducha.md'>Delirios en la ducha</a></li>
+<li><a href='Pastis.md'>Pastis</a></li>
+<li><a href='Basura.md'>Basura</a></li>
+<li><a href='Escenarios.md'>Escenarios</a></li>
+<li><a href='Eli%20x2.md'>Eli x2</a></li>
+<li><a href='Delgado.md'>Delgado</a></li>
+<li><a href='Porro.md'>Porro</a></li>
+<li><a href='Me%20ha%20dado%20miedo.md'>Me ha dado miedo</a></li>
+<li><a href='Repito.md'>Repito</a></li>
+<li><a href='No%20es%20justo.md'>No es justo</a></li>
+<li><a href='In%20the%20neck.md'>In the neck</a></li>
+<li><a href='Indicaciones.md'>Indicaciones</a></li>
+<li><a href='Alcohol.md'>Alcohol</a></li>
+<li><a href='Sombras.md'>Sombras</a></li>
+<li><a href='Aphantasia.md'>Aphantasia</a></li>
+<li><a href='%C2%BFPara%20que.md'>¿Para que</a></li>
+<li><a href='Duele.md'>Duele</a></li>
+<li><a href='Envejecer.md'>Envejecer</a></li>
+<li><a href='Same%20thing.md'>Same thing</a></li>
+<li><a href='Abuelo.md'>Abuelo</a></li>
+<li><a href='No%20entiendo.md'>No entiendo</a></li>
+<li><a href='Terapeuta%20virtual.md'>Terapeuta virtual</a></li>
+<li><a href='Perdido.md'>Perdido</a></li>
+<li><a href='Alone.md'>Alone</a></li>
+<li><a href='El%20lastimado.md'>El lastimado</a></li>
+<li><a href='Mi%20cerebro.md'>Mi cerebro</a></li>
+<li><a href='Afilado.md'>Afilado</a></li>
+<li><a href='Me%20volvieron%20a%20dejar.md'>Me volvieron a dejar</a></li>
+<li><a href='Random%20vent.md'>Random vent</a></li>
+<li><a href='Llanto.md'>Llanto</a></li>
+<li><a href='Vacio.md'>Vacio</a></li>
+<li><a href='SHP.com.md'>SHP.com</a></li>
+<li><a href='Casi%20lo%20hago.md'>Casi lo hago</a></li>
+<li><a href='Cronico.md'>Cronico</a></li>
+<li><a href='En%20que%20piensas.md'>En que piensas</a></li>
+<li><a href='Todo.md'>Todo</a></li>
+<li><a href='Disposable.md'>Disposable</a></li>
+<li><a href='Calladito.md'>Calladito</a></li>
+<li><a href='Todo%20mal.md'>Todo mal</a></li>
+<li><a href='Borroso.md'>Borroso</a></li>
+<li><a href='Waking%20up%20or%20falling%20down.md'>Waking up or falling down</a></li>
+<li><a href='Escapulas.md'>Escapulas</a></li>
+<li><a href='En%20la%20sien.md'>En la sien</a></li>
+<li><a href='3%20en%20ralla.md'>3 en ralla</a></li>
+<li><a href='Tik%20tok%20curse.md'>Tik tok curse</a></li>
+<li><a href='Creo%20que%20tengo%20tlp.md'>Creo que tengo tlp</a></li>
+<li><a href='Mala%20hija.md'>Mala hija</a></li>
+<li><a href='Padres.md'>Padres</a></li>
+<li><a href='Las%20veces%20que%20he%20despertado.md'>Las veces que he despertado</a></li>
+<li><a href='Slit.md'>Slit</a></li>
+<li><a href='Irrealidad.md'>Irrealidad</a></li>
+<li><a href='Redentor%20en%20ruinas.md'>Redentor en ruinas</a></li>
+<li><a href='Mi%20deseo.md'>Mi deseo</a></li>
+<li><a href='TEA.md'>TEA</a></li>
+<li><a href='Seen.md'>Seen</a></li>
+<li><a href='Sex.md'>Sex</a></li>
+<li><a href='Recuerdos.md'>Recuerdos</a></li>
+</ul></body></html>
