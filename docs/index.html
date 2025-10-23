@@ -138,7 +138,7 @@
         const li = document.createElement("li");
         const a = document.createElement("a");
         a.textContent = p.title;
-        a.href = `${BASE}/poems/${encodeURIComponent(p.slug)}.md`;
+        a.href = `${BASE}/poems/${p.slug}.md`;
         li.appendChild(a);
         ul.appendChild(li);
       });
