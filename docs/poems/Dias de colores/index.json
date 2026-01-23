@@ -1,32 +1,8 @@
 [
   {
-    "title": "Atardecer roto 🍑",
-    "slug": "Atardecer roto 🍑"
-  },
-  {
-    "title": "Azul espera-nza✈️",
-    "slug": "Azul espera-nza✈️",
-    "color": "#C1E1E8"
-  },
-  {
-    "title": "Blanco de nuevos comienzos 🤍",
-    "slug": "Blanco de nuevos comienzos 🤍",
-    "color": "#F4F4F4"
-  },
-  {
     "title": "Gris lluvioso",
     "slug": "Gris lluvioso",
     "color": "#586477"
-  },
-  {
-    "title": "Mar en el cielo 🌊",
-    "slug": "Mar en el cielo 🌊",
-    "color": "#7EA9E7"
-  },
-  {
-    "title": "Naranja en espera 🟧",
-    "slug": "Naranja en espera 🟧",
-    "color": "#DC7630"
   },
   {
     "title": "Rojo elfo 🎄",
@@ -34,8 +10,33 @@
     "color": "#8F0C22"
   },
   {
+    "title": "Mar en el cielo 🌊",
+    "slug": "Mar en el cielo 🌊",
+    "color": "#7EA9E7"
+  },
+  {
     "title": "Verde melancólico 🌱",
     "slug": "Verde melancólico 🌱",
     "color": "#93997B"
+  },
+  {
+    "title": "Naranja en espera 🟧",
+    "slug": "Naranja en espera 🟧",
+    "color": "#DC7630"
+  },
+  {
+    "title": "Blanco de nuevos comienzos 🤍",
+    "slug": "Blanco de nuevos comienzos 🤍",
+    "color": "#F4F4F4"
+  },
+  {
+    "title": "Azul espera-nza✈️",
+    "slug": "Azul espera-nza✈️",
+    "color": "#C1E1E8"
+  },
+  {
+    "title": "Atardecer roto 🍑",
+    "slug": "Atardecer roto 🍑",
+    "color": "#E49D70"
   }
 ]
