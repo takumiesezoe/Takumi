@@ -14,9 +14,24 @@
     "color": "#F4F4F4"
   },
   {
+    "title": "Gris lluvioso",
+    "slug": "Gris lluvioso",
+    "color": "#586477"
+  },
+  {
+    "title": "Mar en el cielo 🌊",
+    "slug": "Mar en el cielo 🌊",
+    "color": "#7EA9E7"
+  },
+  {
     "title": "Naranja en espera 🟧",
     "slug": "Naranja en espera 🟧",
     "color": "#DC7630"
+  },
+  {
+    "title": "Rojo elfo 🎄",
+    "slug": "Rojo elfo 🎄",
+    "color": "#8F0C22"
   },
   {
     "title": "Verde melancólico 🌱",
