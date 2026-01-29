@@ -6,18 +6,25 @@
   <title>Takumi — Índice</title>
   <style>
     body {
-      font-family: "Inter", system-ui, sans-serif;
-      background-color: #0d0d0d;
-      color: #e5e5e5;
+      font-family: Georgia, serif;
+      background-color: #000000;
+      color: #FFB6C1;
       margin: 0;
       padding: 2rem;
       line-height: 1.6;
+      font-style: italic;
     }
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
       font-weight: 700;
       letter-spacing: 0.5px;
+      color: #FFB6C1;
+      font-style: italic;
+    }
+    h2 {
+      color: #FFB6C1;
+      font-style: italic;
     }
     section {
       margin-bottom: 2rem;
@@ -30,7 +37,7 @@
       margin: 0.4rem 0;
     }
     a {
-      color: #b19cd9;
+      color: #ff91a4;
       text-decoration: none;
     }
     a:hover {
@@ -44,18 +51,19 @@
       display: block;
       padding: 1rem;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 182, 193, 0.1);
       text-decoration: none;
       margin-bottom: 1rem;
       transition: background 0.2s;
     }
     .collection-card:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 182, 193, 0.2);
     }
     .collection-title {
       font-weight: 700;
       font-size: 1.1rem;
       margin-bottom: 0.3rem;
+      color: #FFB6C1;
     }
     .collection-desc {
       opacity: 0.8;
@@ -138,7 +146,7 @@
         const li = document.createElement("li");
         const a = document.createElement("a");
         a.textContent = p.title;
-        a.href = `${BASE}/poems/${p.slug}.md`;
+        a.href = `${BASE}/viewer.html?poem=${encodeURIComponent(p.slug)}.md`;
         li.appendChild(a);
         ul.appendChild(li);
       });
