@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <a href="/Takumi/poems/index.html">← Volver a Poemas</a>
+  <a href="poems/index.html">← Volver a Poemas</a>
   <h1 id="title">Poema</h1>
   <pre id="poem">Cargando…</pre>
 
@@ -22,6 +22,9 @@
   const name = params.get('poem');
   const titleEl = document.getElementById('title');
   const pre = document.getElementById('poem');
+
+  // Detectar base URL dinámicamente (viewer.html está en la raíz del sitio)
+  const basePath = location.pathname.replace(/\/viewer\.html.*$/, '');
 
   if (!name) {
     pre.textContent = 'Archivo no especificado.';
@@ -33,10 +36,10 @@
   titleEl.textContent = title ? title.replace(/\.md$/i, '') : name;
   document.title = titleEl.textContent + ' · Poema';
 
-  // 🔥 importante: ajustar ruta al subdirectorio poems/
+  // Construir URL con base dinámica
   const segments = name.split('/').filter(Boolean);
   const safePath = segments.map(part => encodeURIComponent(part)).join('/');
-  const url = '/Takumi/poems/' + safePath + '?t=' + Date.now();
+  const url = basePath + '/poems/' + safePath + '?t=' + Date.now();
 
   try {
     console.log('[viewer] fetch', url);
