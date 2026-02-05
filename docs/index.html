@@ -131,7 +131,7 @@
       return links.map(a => {
         const title = (a.textContent || "").trim();
         const href = a.getAttribute("href") || "";
-        const slug = href.replace(/^.*\//, "").replace(/\.md$/i, "");
+        const slug = decodeURIComponent(href.replace(/^.*\//, "").replace(/\.md$/i, ""));
         return { title, slug };
       });
     }
